@@ -1,0 +1,49 @@
+<!--The 'summary_deposit_payment' value from the .js file should be used-->
+<li id="summary_deposit_payment">
+    <div class="step-title">
+        <span data-bind="i18n: '5 - Summary & deposit payment'" data-role="title"></span>
+        <span class="step-edit" data-bind="i18n: 'Edit', event: { click: navigateTo('summary_deposit_payment') }, fadeVisible: !isVisible()" data-role="edit"></span>
+    </div>
+    <div class="checkout-short-content" data-bind="text: checkoutShortContent(), fadeVisible: !isVisible()"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content" data-bind="fadeVisible: isVisible">
+        <form data-bind="event: { submit: navigateToNextStep }" novalidate="novalidate" class="swap_car_container" id="form-checkout-step-summary-deposit-payment">
+            <div class="row">
+                <div class="col-sm-5">
+                    <img src="" class="img-responsive" data-bind="attr: { src: newCarImage }">
+                </div>
+                <div class="col-sm-7 new-car">
+                    <h3>Your brand new car</h3>
+                    <div class="name" data-bind="text: newCarName"></div>
+                    <div class="description" data-bind="text: newCarDescription"></div>
+                    <div class="more-info"><label data-bind="text: newCarColorName"></label></div>
+                    <div class="more-info"><label data-bind="text: newCarWheelType"></label></div>
+                    <div class="more-info"><label data-bind="text: newCarInterior"></label></div>
+                    <div class="more-info"><label data-bind="text: newCarEngine"></label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 col-sm-offset-5 deposit">
+                    <h3>Your cash deposit</h3>
+                    <p>You will now be charged <span class="price"><span class="format" data-bind="text: depositPriceFormat">250$</span> deposit</span> fee</p>
+                    <!--<p>You will be redirected to XXX website to complete payment.</p>-->
+                    <div class="accept-term-conditions">
+                        <input type="radio" id="summary-term-conditions" name="summary-term-conditions" value="accept-term-conditions" data-bind="checked: summaryTermConditionsChecked"> I accept the <a href="javascript:void(0)">Terms & Conditions</a></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 place-order">
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button data-role="review-save" type="submit"
+                                    data-bind="event: { click: placeOrder($parents[1]) }, attr: { title: $t('Continue') }"
+                                    class="button action primary checkout"><span data-bind="i18n: 'Continue'"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

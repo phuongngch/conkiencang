@@ -1,0 +1,89 @@
+<!--The 'delivery' value from the .js file should be used-->
+<li id="delivery">
+    <div class="step-title">
+        <span data-bind="i18n: '4 - Delivery/Collection'" data-role="title"></span>
+        <span class="step-edit" data-bind="i18n: 'Edit', event: { click: navigateTo('delivery') }, fadeVisible: !isVisible()" data-role="edit"></span>
+    </div>
+    <div class="checkout-short-content" data-bind="text: checkoutShortContent(), fadeVisible: !isVisible()"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content" data-bind="fadeVisible: isVisible">
+        <form data-bind="event: { submit: navigateToNextStep }" novalidate="novalidate" class="swap_car_container" id="form-checkout-step-delivery">
+            <p class="selectPreferedDelivery">Please select your prefered delivery option</p>
+            <div class="control-tabs orange-buttons-switcher">
+                <!--<a id="showCollection" class="btn btn-green" data-bind="click: showCollection" href="#">Collection - Free</a>-->
+                <a id="showHomedelivery" class="btn btn-green" data-bind="event { click: showHomedelivery }" href="#">Free Home Deliver</a>
+            </div>
+            <div id="collection-content" style="display: none">
+                <p class="localstores_box-title">
+                    You can collect your new car from our convenient location and receive a full guided tour and
+                    demonstration of your new car by one of our Car Angels before you drive away
+                </p>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <iframe
+                                width="300"
+                                height="400"
+                                frameborder="0" style="border:0"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAO_blYje0CPK1hUCrcnIbbreodfmISFvU&q=Chadstone+Shopping+Centre" allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <h3>Chadstone Shopping Centre</h3>
+                        1341 Dandenong Rd<br/>
+                        Chadstone Shopping Centre<br/>
+                        Chadstone City<br/>
+                        Victoria<br/>
+                        3148<br/>
+                        0330 200 0785<br/>
+
+                        <br/>
+                        <p class="openning-hours">Opening Hours:</p>
+                        <div class="opening-hours">
+                            <div class="opening-hours-days">
+                                <div class="day">Monday</div><div class="day">Tuesday</div><div class="day">Wednesday</div><div class="day">Tuesday</div><div class="day">Friday</div><div class="day">Saturday</div><div class="day">Sunday</div> </div>
+                            <div class="opening-hours-times">
+                                <div class="hours"> 10:00 - 21:00</div><div class="hours"> 10:00 - 21:00</div><div class="hours"> 10:00 - 21:00</div><div class="hours"> 10:00 - 21:00</div><div class="hours"> 10:00 - 21:00</div><div class="hours"> 9:00 - 21:00</div><div class="hours"> 12:00 - 18:00</div> </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="home-content" >
+                <p class="localstores_box-title">
+                    For something special, home delivery involves having your car covered and delivered
+                    on a car transporter to your home address. You will receive a full guided tour and demonstration of
+                    your new car by one of our Car Angels before they leave you with your new car
+                </p>
+                <div class="row">
+                    <div class="col-sm-7 col-md-6">
+                        <div id="calendar_inputField"></div>
+                    </div>
+                    <div class="col-sm-5 col-md-4">
+                        <div>
+                            <div><strong>Your address</strong><span class="pull-right"><a id="backToContactDetails"
+                                title="Back to Contact Details"
+                                data-bind="event: { click: navigateTo('additional_details') }" href="javascript:void(0)">Edit</a>
+                                </span></div>
+                            <p id="homeDeliveryBillingAddress">
+                                <span id="delivery-address">Mount Pleasant Mail Centre Farringdon Road</span>
+                                <span id="delivery-city">London</span>
+                                <span id="delivery-zipcode">EC1A 1BB</span></p>
+                            <p>
+                                <strong>You have selected:</strong>
+                                <span id="homeDeliveryDate">Monday 20 February</span>
+                            </p>
+                            <p>
+                                We will contact you to confirm this date and time within the next 7-14 days.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <input name="btn-next-step" type="submit" value="Next step"  class="action primary" data-role="opc-continue" />
+            </div>
+        </form>
+    </div>
+</li>

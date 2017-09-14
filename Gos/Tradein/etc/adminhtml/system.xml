@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="gostradein" translate="label" sortOrder="342" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Tradein API</label>
+            <tab>advanced</tab>
+            <resource>Gos_Tradein::config</resource>
+            <group id="nevdis_settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>NEVDIS Settings</label>
+                <field id="enabled" type="select" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="base_api_url" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+				<field id="nevdis_authorization" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Authorization</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="polk_settings" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Polk Settings</label>    
+                <field id="polk_domain_name" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Domain name</label>
+                </field>
+                <field id="polk_username" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                </field>
+                <field id="polk_password" translate="label" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+                <field id="polk_company_code" translate="label" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company Code</label>
+                </field>
+                <field id="polk_data_dictionary" translate="label" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Data Dictionary</label>
+                </field>
+            </group>
+            <group id="manheim_settings" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Manheim Settings</label>    
+                <field id="manheim_wsdl" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>WSDL URL</label>
+                </field>
+				<field id="manheim_vendor" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Vendor</label>
+                </field>
+                <field id="manheim_company" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company</label>
+                </field>
+                <field id="manheim_username" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Vendor</label>
+                </field>
+                <field id="manheim_password" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+                <field id="manheim_variation" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Variation Ratio</label>
+                </field>
+                <field id="manheim_admin" translate="label" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin Amount ($)</label>
+                </field>
+                <field id="manheim_condition" translate="label" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Fair to Excellent Condition (%)</label>
+                </field>
+                <field id="manheim_owner" translate="label" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>One Owner(%)</label>
+                </field>
+                <field id="manheim_key" translate="label" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>2 Sets of Keys ($)</label>
+                </field>
+                <field id="manheim_plates" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Personalised Plates ($)</label>
+                </field>
+                <field id="manheim_history" translate="label" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Full Service History (%)</label>
+                </field>
+                <field id="manheim_transmision" translate="label" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Manual Transmission (%)</label>
+                </field>
+                <field id="manheim_engine" translate="label" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Diesel Engine (%)</label>
+                </field>
+				<field id="manheim_kms" translate="label" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum KMs travelled per year</label>
+                </field>
+
+            </group>    
+        </section>
+    </system>
+</config>

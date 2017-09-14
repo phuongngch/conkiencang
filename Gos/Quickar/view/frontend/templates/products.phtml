@@ -1,0 +1,362 @@
+<?php
+$params = $block->getData('params');
+$collection = $block->getProductCollection()->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) 
+        ->setPageSize(1) // only get 10 products 
+        ->setCurPage(1);
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$checkoutSession = $objectManager->get('\Magento\Checkout\Model\Session');
+$checkoutSession->unsInterestRate();
+
+function getPriceHtml($product)
+{
+	//echo $product->getId();
+    if($product->getTypeId() == 'bundle'){
+        $price = $product->getData('min_price');
+    }else{
+        $price = $product->getData('price');
+    }
+    $html = '<div class="price-box"><div class="price">$'.number_format($price, 0, '.', ',') .'</div></div>';
+    return $html;
+}
+
+if ($exist = ($collection && $collection->getSize())):?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $title = $block->getTitle() ? __($block->getTitle()) : '';
+
+
+    $initPayment = 750;
+    $duration = 48;
+    $payPerMonth = 750;
+    $tradeInValue = 0;
+    $numMiles = 1000;
+    $amountOwing = 0;
+    $payFullAmount = 0;
+
+    //var_dump($params);
+    if(isset($params['initPayment'])){
+        $initPayment = $params['initPayment'];
+        unset($params['initPayment']);
+    }
+    if(isset($params['duration'])){
+        $duration = $params['duration'];
+        unset($params['duration']);
+    }
+    if(isset($params['payPerMonth'])){
+        $payPerMonth = $params['payPerMonth'];
+        unset($params['payPerMonth']);
+    }
+    if(isset($params['tradeInValue'])){
+        $tradeInValue = $params['tradeInValue'];
+        unset($params['tradeInValue']);
+    }
+    if(isset($params['numMiles'])){
+        $numMiles = $params['numMiles'];
+        unset($params['numMiles']);
+    }
+    if(isset($params['amount_owing'])){
+        $amountOwing = $params['amount_owing'];
+        unset($params['amount_owing']);
+    }
+    if(isset($params['payFullAmount']) && $params['payFullAmount'] > 0){
+        $payFullAmount = $params['payFullAmount'];
+        unset($params['payFullAmount']);
+    }
+
+    if(count($params) > 0){
+        //var_dump($params);
+        foreach($params as $key => $value){
+            if($key == 'name'){
+                $condition = array();
+                foreach ($value as $val) {
+                    $val = str_replace(' ','%',$val);
+                    $condition[] = array('like' => '%'.$val.'%');
+                }
+                $collection->addAttributeToFilter($key,$condition);
+            }elseif ($key == 'transmission_type') {
+                foreach ($value as $val) {
+                    if ($val !== 'Any')
+                    {
+                        $condition = array('like' => '%'.$val.'%');
+                        //$collection->addAttributeToFilter($key,$condition);
+                        $collection->addAttributeToFilter('holden_engine_and_transmission',$condition);
+                    }
+                }
+            }elseif ($key == 'min_price') {
+                continue;
+                //$collection->addAttributeToFilter('price', ['gt' => $value]);
+                //$collection->addAttributeToFilter('price', array('lt' => $value));
+            }else{
+                $collection->addAttributeToFilter($key, $value);
+            }
+        }
+    }
+
+    $items = $collection->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+
+    $filteredItems = [];
+
+    if ($amountOwing =='' ) {
+        //$tradeInValue = 0;
+        $amountOwing = (float)$checkoutSession->getTradeinOwing();
+    }
+
+    if ($tradeInValue =='' ) {
+        //$tradeInValue = 0;
+        $tradeInValue = (float)$checkoutSession->getTradeinValue();
+    }
+
+//    if ($duration == 0) {
+//        $duration = 48;
+//    }
+//
+//    if ($payPerMonth == 0) {
+//        $payPerMonth = 500;
+//    }
+
+    ?>
+
+    <div class="block widget block-products-list <?php /* @escapeNotVerified */ echo $mode; echo $tradeInValue;  ?>">
+        <div class="block-content">
+            <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+            <div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
+                <div class="product-items">
+
+                    <?php $iterator = 1; ?>
+
+                    <?php
+
+                    foreach ($items as $_item): ?>
+                        <?php
+                        $price_month = \Gos\Quickar\Helper\Price::getMonthlyPrice($_item, $duration, $initPayment, $tradeInValue, $payPerMonth, $numMiles);
+//                        if($price_month > $payPerMonth && !isset($noFilterByMonthlyPrice) && isset($params['min_price'])){
+//                            continue;
+//                        }
+//
+//                        if ($params['min_price'] > (float)$_item->getMinPrice())
+//                        {
+//                            continue;
+//                        }
+                        //QUIC-147
+                        $maxPriceLimit = ($payPerMonth * 88) + $initPayment + $tradeInValue - $amountOwing;
+                        $minPriceLimit = 10000;
+                        $carPrice = (float)$_item->getMinPrice();
+                        if ($carPrice < $minPriceLimit  || $carPrice > $maxPriceLimit)
+                        {
+                            continue;
+                        }
+
+                        //pay in full
+                        if($payFullAmount && (float)$_item->getMinPrice() > $payFullAmount && $payFullAmount > 10000){
+                            continue;
+                        }
+						
+                        // If tradin price is larger than car price
+                        $price_week = $price_month*12/52;
+
+                        $price_month = number_format($price_month,0,'.', ',');
+                        $price_week = number_format($price_week,0,'.', ',');
+
+                        $offer_text = $_item->getData('car_offer_text');
+                        $car_save_price = $_item->getData('car_save_price');
+
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $product = $objectManager->create('Magento\Catalog\Model\Product')->load($_item->getId());
+                        $transmissiontype = $product->getData('transmission_type');
+                        $tradeinYear = $product->getData('year');
+                        $product_class = 'product-item ';
+
+                        if(!empty($car_save_price)) {
+                            $product_class = 'product-item item-wide';
+                        }elseif(!empty($offer_text)){
+                            $product_class = 'product-item item-high';
+                        }
+
+                        $interest_rate = is_null($_item->getData('interest_rate'))?6.9:$_item->getData('interest_rate');
+                        $interest_rate= base64_encode($interest_rate);
+                        //$urlinitPayment = $duration == 0 ? (float)$_item->getMinPrice() : $initPayment;
+
+                        if ($initPayment > 2500) {
+                             $urlinitPayment = 750;
+                        }else{
+                             $urlinitPayment = $initPayment;
+                        }
+                       
+                        
+                        $productUrl = $block->getProductUrl($_item).'?ini-pay='.$urlinitPayment.'&period='.$duration.'&per-month='.$payPerMonth.'&kms='.$numMiles.'&trade='.$tradeInValue.'&amount_owing='.$amountOwing.'&r='.$interest_rate;
+
+
+                        $filteredItems[] = $_item;
+
+                        /* @escapeNotVerified */ //echo '<div class="'..'">' ?>
+                        <div class="product-item-info <?php echo $product_class; ?>">
+
+                            <?php
+                            if(empty($offer_text)){?>
+
+                                <div class="product-item-title">
+                                    <div class="product-item-name">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
+                                           href="<?php echo $productUrl ?>"
+                                           class="product-item-link">
+                                            <?php echo $block->escapeHtml($_item->getName()) ?>
+                                        </a>
+                                    </div>
+                                    <div class="product-item-type">
+                                        <a href="<?php echo $productUrl ?>"><?php echo $tradeinYear.' - '.$transmissiontype ; ?></a>
+                                    </div>
+                                </div>
+
+                                <div class="product-item-subtitle">
+                                    <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo $_item->getData('car_sub_detail') ?></a>
+                                </div>
+                                <a class="product-item-photo" href="<?php echo $productUrl ?>" >
+                                    <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                                </a>
+                                <div class="product-item-details">
+                                    <div class="price-box price-month">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><span class="price_week">$<?php echo $price_week ?></span><span>per Week*</span></a>
+                                    </div>
+                                    <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo getPriceHtml($_item);?> <span>Cash Price*</span></a>
+
+                                    <?php if ($templateType): ?>
+                                        <?php echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                    <?php endif; ?>
+                                </div>
+
+                            <?php }else if(empty($car_save_price)){ ?>
+
+                                <div class="product-item-title">
+                                    <div class="product-item-name">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
+                                           href="<?php echo $productUrl ?>"
+                                           class="product-item-link">
+                                            <?php echo $block->escapeHtml($_item->getName()) ?>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-item-subtitle">
+                                    <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo $_item->getData('car_sub_detail') ?></a>
+                                </div>
+                                <div class="product-item-details-1">
+                                    <div class="offer-text">  <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo $offer_text ?></a></div>
+                                    <div class="price-box-1">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo getPriceHtml($_item);?></a>
+                                        <div class="price-month"> <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>">$<?php echo $price_month ?> month</a></div>
+                                    </div>
+                                </div>
+                                <a class="product-item-photo" href="<?php echo $productUrl ?>" >
+                                    <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                                </a>
+
+                            <?php }else{ ?>
+                                <div class="product-item-title">
+                                    <div class="product-item-name">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
+                                           href="<?php echo $productUrl ?>"
+                                           class="product-item-link">
+                                            <?php echo $block->escapeHtml($_item->getName()) ?>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-item-subtitle">
+                                    <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo $_item->getData('car_sub_detail') ?></a>
+                                </div>
+                                <div class="product-item-details-2">
+                                    <div class="save-price-box">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"> <?php echo $car_save_price?></a>
+                                    </div>
+                                    <div class="offer-text">
+                                        <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"> <?php echo $offer_text?></a>
+                                    </div>
+                                    <div>
+                                        <div class="price-box-2">
+                                            <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>"><?php echo getPriceHtml($_item);?></a>
+                                            <div class="price-month"> <a title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>">$<?php echo $price_month ?> month</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="product-item-photo" href="<?php echo $productUrl ?>">
+                                    <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                                </a>
+
+                            <?php } ?>
+
+                            <a class="product-item-icons-wrapper" title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php echo $productUrl ?>">
+                                <div class="product-item-icons">
+                                    <!-- <div class="icong-box">
+                                        <div class="icong-img"><img src="/pub/static/frontend/Gos/quickar/en_AU/images/icons/8.png"></div>
+                                        <div class="icong-title">Hatchback</div>
+                                    </div>
+                                    <div class="icong-box">
+                                        <div class="icong-img"><img src="/pub/static/frontend/Gos/quickar/en_AU/images/icons/7.png"></div>
+                                        <div class="icong-title">Safety</div>
+                                    </div>
+                                    <div class="icong-box">
+                                        <div class="icong-img"><img src="/pub/static/frontend/Gos/quickar/en_AU/images/icons/1.png"></div>
+                                        <div class="icong-title">7.3L/100km</div>
+                                    </div>
+                                    <div class="icong-box">
+                                        <div class="icong-img"><img src="/pub/static/frontend/Gos/quickar/en_AU/images/icons/4.png"></div>
+                                        <div class="icong-title">6 Speaker</div>
+                                    </div>
+                                    <div class="icong-box">
+                                        <div class="icong-img"><img src="/pub/static/frontend/Gos/quickar/en_AU/images/icons/3.png"></div>
+                                        <div class="icong-title">Bluetooth</div>
+                                    </div> -->
+
+                                    <?php
+                                    if (!empty($car_save_price)) { ?>
+                                        <!-- Some attributes  -->
+                                    <?php } ?>
+                                </div>
+                                <div class="des_more">
+                                    <p> 3 Years schedule serving </p>
+                                    <p class="warranty"> 5 Years Warranty</p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <?php //echo '</div>' ?>
+                    <?php endforeach ?>
+                </div>
+            </div>
+
+            <?php echo $block->getPagerHtml() ?>
+        </div>
+    </div>
+    <?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $eavConfig = $objectManager->get('\Magento\Eav\Model\Config');
+    $propertyCounts = \Gos\Quickar\Helper\Filter::getPropertyCounts($filteredItems, $eavConfig);
+    ?>
+    <script>
+        var propertyCounts = <?php echo json_encode($propertyCounts );?>;
+
+        jQuery('#count-manual').text(propertyCounts.manual);
+        jQuery('#count-auto').text(propertyCounts.auto);
+        jQuery('#count-petrol').text(propertyCounts.petrol);
+        jQuery('#count-diesel').text(propertyCounts.diesel);
+        jQuery('#count-small-medium').text(propertyCounts.small_medium);
+        jQuery('#count-large').text(propertyCounts.large);
+        jQuery('#count-suv').text(propertyCounts.suv);
+        jQuery('#count-spark').text(propertyCounts.spark);
+        jQuery('#count-barina').text(propertyCounts.barina);
+        jQuery('#count-astra').text(propertyCounts.astra);
+        jQuery('#count-trax').text(propertyCounts.trax);
+        jQuery('#count-commodore').text(propertyCounts.commodore);
+
+    </script>
+<?php endif;?>

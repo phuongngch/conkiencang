@@ -1,0 +1,102 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko -->
+<!--<tr class="totals fee excl">-->
+<!--<th class="mark" colspan="1" scope="row" data-bind="text: title"></th>-->
+<!--<td class="amount">-->
+<!--<span class="price" data-bind="text: getValue()"></span>-->
+<!--</td>-->
+<!--</tr>-->
+
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row" data-bind="text: getData(8)">Product Name</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(9)">0</span>
+    </td>
+</tr>
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row" data-bind="text: getData(12)"></th>
+    <td class="amount">
+    </td>
+</tr>
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row" data-bind="text: getData(10)"></th>
+    <td class="amount">
+
+    </td>
+</tr>
+<tr class="payment-item border-bottom">
+    <th class="mark" colspan="1" scope="row">Accessories</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(11)">0</span>
+    </td>
+</tr>
+
+<tr class="payment-item border-bottom bold red">
+    <th class="mark" colspan="1" scope="row">Cash Driveaway Price</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(7)"></span>
+    </td>
+</tr>
+
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row">Cash deposit</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(1)"></span>
+    </td>
+</tr>
+
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row">Trade In Value</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(3)"></span>
+    </td>
+</tr>
+
+<tr class="payment-item">
+    <th class="mark" colspan="1" scope="row">Out Standing Finance</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPriceData(6)"></span>
+    </td>
+</tr>
+
+<tr class="payment-item border-bottom bold">
+    <th class="mark" colspan="1" scope="row">Customer Deposit</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getCustomerDeposit()"></span>
+    </td>
+</tr>
+
+<tr class="payment-item border-bottom bold">
+    <th class="mark" colspan="1" scope="row">Balance Owning</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getBalanceOwning()"></span>
+    </td>
+</tr>
+
+<tr class="payment-item border-bottom bold red">
+    <th class="mark" colspan="1" scope="row">Cash Settlement</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getBalanceOwning()"></span>
+    </td>
+</tr>
+
+<tr class="payment-item bold red">
+    <th class="mark" colspan="1" scope="row">Monthly Repayment</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getMonthlyPayment()"></span>
+    </td>
+</tr>
+
+<tr class="payment-item red">
+    <th class="mark" colspan="1" scope="row">Weekly Average</th>
+    <td class="amount">
+        <span class="price" data-bind="text: getWeeklyPayment()"></span>
+    </td>
+</tr>
+
+<!-- /ko -->

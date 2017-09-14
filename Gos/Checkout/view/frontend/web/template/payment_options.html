@@ -1,0 +1,118 @@
+<!--The 'payment_options' value from the .js file should be used-->
+<li id="payment_options">
+    <div class="step-title">
+        <span data-bind="i18n: '2 - Choose you payment options'" data-role="title"></span>
+        <span class="step-edit" data-bind="i18n: 'Edit', event: { click: navigateTo('payment_options') }, fadeVisible: !isVisible()" data-role="edit"></span>
+    </div>
+    <div class="checkout-short-content" data-bind="text: checkoutShortContent(), fadeVisible: !isVisible()"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content" data-bind="fadeVisible: isVisible">
+        <form data-bind="event: { submit: navigateToNextStep }" novalidate="novalidate" class="swap_car_container" id="form-checkout-step-payment-option">
+            <div class="actions-toolbar">
+                <div class="row">
+                    <div class="confirm-step-block col-sm-12 col-md-12">
+                        <div class="payment_popup">
+                            <p> Use the sliders below and see the monthly prices change.<br />
+                                Want to find out more or change your selection? Click on the tab.</p>
+                            <div  id="month-panel">
+                                <div class="slider-row">
+                                    <div class="slider-wrapper">
+                                        <div class="slider-title">I'd like to pay over</div>
+                                        <div class="sliders" id="slider-2"></div>
+                                        <div class="slider-value" id="slider-2-value">60 month</div>
+                                    </div>
+                                    <div class="slider-wrapper">
+                                        <div class="slider-title">Deposit</div>
+                                        <div class="sliders" id="slider-3"></div>
+                                        <div class="slider-value" id="slider-3-value">$500</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pay-tabs">
+                                <div class="pay-tab active" id="car-loan-payment">Car loan payment</div>
+                                <div class="pay-tab" id="balloon-payment">Balloon payment</div>
+                                <div class="pay-tab" id="full-payment">Full payment</div>
+                                <div class="clear"></div>
+                            </div>
+
+                            <p id="payment-title">Balloon Payment Example</p>
+                            <table class="table table-striped">
+                                <col width="60%">
+                                <col width="40%">
+                                <tr class="even loan">
+                                    <td><span id="popup-period"></span> monthly payments of</td>
+                                    <td>$<span id="popup-monthly-payment"></span></td>
+                                </tr>
+                                <tr class="old">
+                                    <td>Cash Price</td>
+                                    <td>$<span id="popup-cash-price">0</span></td>
+                                </tr>
+                                <tr class="even loan">
+                                    <td>Finance Deposit Contribution</td>
+                                    <td>$0</td>
+                                </tr>
+                                <tr class="old">
+                                    <td>Customer deposit</td>
+                                    <td>$<span id="popup-customer-deposit">0</span></td>
+                                </tr>
+                                <tr class="even">
+                                    <td>Total Deposit</td>
+                                    <td>$<span id="popup-total-deposit">0</span></td>
+                                </tr>
+                                <tr class="old">
+                                    <td id="cash-settlement">Amount of credit</td>
+                                    <td>$<span id="popup-amount-credit">0</span></td>
+                                </tr>
+                                <tr class="even loan">
+                                    <td>Interest charges</td>
+                                    <td>$<span id="popup-interest-charge">0</span></td>
+                                </tr>
+                                <tr class="old loan">
+                                    <td>Fees</td>
+                                    <td>$0</td>
+                                </tr>
+                                <tr class="even loan">
+                                    <td>Total amount payable</td>
+                                    <td>$<span id="popup-total-amount-payable"></span></td>
+                                </tr>
+                                <tr class="old loan">
+                                    <td>Duration of agreement</td>
+                                    <td><span id="popup-duration"></span></td>
+                                </tr>
+                                <tr class="even loan">
+                                    <td>Interest Rate</td>
+                                    <td><span id="popup-rate"></span></td>
+                                </tr>
+                                <tr class="old loan">
+                                    <td>Annual Contract Mileage</td>
+                                    <td><span id="popup-mileage"></span></td>
+                                </tr>
+                                <tr class="even loan" id="balloon-info">
+                                    <td>Balloon Amount</td>
+                                    <td>$<span id="balloon-value"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <input id="btn-accept" name="btn-ok-payment-options" type="submit" value="Next"  class="action primary" data-role="opc-continue" />
+                    </div>
+                    <div id="payment-term-conditional-pop-up" class="row" style="display: none">
+                        <div class="col-sm-12">
+                            <div class="content">
+                                <p>Term and conditional for Payment Options Term and conditional for Payment Options Term and conditional for Payment Options Term and conditional for Payment Options</p>
+                                <p>Term and conditional for Payment Options Term and conditional for Payment Options Term and conditional for Payment Options Term and conditional for Payment Options</p>
+                            </div>
+                            <div class="confirm-buttons">
+                                <input id="btn-disagree" name="btn-disagree" type="button" value="Disagree" class="action primary2" data-role="closeBtn" />
+                                <input id="btn-agree" name="btn-agree" type="button" value="Agree"  class="action primary" data-bind="event: { click: clickAgreePaymentOptionsButton }" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

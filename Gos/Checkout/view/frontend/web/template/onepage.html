@@ -1,0 +1,32 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="checkout-title" data-bind="i18n: 'Details & Payment'" data-role="title"></div>
+<!-- ko foreach: getRegion('authentication') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('estimation') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('messages') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+<div class="opc-wrapper">
+    <!-- ko foreach: getRegion('progressBarVertical') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+    <ol class="opc" id="checkoutSteps">
+    <!-- ko foreach: getRegion('steps') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+    </ol>
+</div>
+
+<!-- ko foreach: getRegion('sidebar') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->

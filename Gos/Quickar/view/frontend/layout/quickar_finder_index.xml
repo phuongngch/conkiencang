@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Car Finder</title>
+        <css src="Gos_Quickar::css/styles.css"/>
+        <css src="Gos_Quickar::css/owl.carousel.min.css"/>
+        <css src="Gos_Quickar::css/owl.theme.default.min.css"/>
+        <css src="Gos_Quickar::css/bootstrap-select.min.css"/>
+        <css src="css/nouislider.css" media="all"/>
+        <script src="Gos_Quickar::js/freewall.js"/>
+    </head>
+    <referenceContainer name="content">
+        <block class="\Gos\Quickar\Block\Finder" name="quickar_finder" template="Gos_Quickar::finder.phtml" />
+    </referenceContainer>
+</page>

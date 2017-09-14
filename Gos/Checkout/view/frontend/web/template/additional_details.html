@@ -1,0 +1,511 @@
+<!--The 'additional_details' value from the .js file should be used-->
+<li id="additional_details">
+    <div class="step-title">
+        <span data-bind="i18n: '3 - Your details (' + currentPage() + ' of 2)'" data-role="title"
+          class="left-title" data-pages="2"></span>
+        <span class="step-edit"
+              data-bind="i18n: 'Edit', event: { click: navigateTo('additional_details') }, fadeVisible: !isVisible()"
+              data-role="edit"></span>
+    </div>
+    <div class="checkout-short-content" data-bind="text: checkoutShortContent(), fadeVisible: !isVisible()"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content" data-bind="fadeVisible: isVisible">
+        <form data-bind="event: { submit: navigateToNextStep }" novalidate="novalidate" class="swap_car_container"
+              id="form-checkout-step-additional-details">
+            <!-- Page 1 -->
+            <div class="additional-details-page-1" data-bind="fadeVisible: (currentPage() == 1 ? true : false)">
+                <!-- Contact Details -->
+                <fieldset class="contact-details-fieldset">
+                    <legend class="label">
+                        <span>Contact Details</span>
+                    </legend>
+                    <div class="control fieldset">
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Title</span>
+                            </label>
+                            <div class="control">
+                                <select class="select" id="contact_title" name="contact_title"
+                                    data-bind="value: contact().title">
+                                    <option value="dr">Dr</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="ms">Ms</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>First Name</span>
+                            </label>
+                            <div class="control">
+                                <input class="input-text" type="text" name="contact_first_name" placeholder=""
+                                       id="contact_first_name" data-bind="value: contact().firstName"
+                                       data-validate="{ required: true }">
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Last Name</span>
+                            </label>
+                            <div class="control">
+                                <input class="input-text" type="text" name="contact_last_name" placeholder=""
+                                       id="contact_last_name" data-bind="value: contact().lastName"
+                                       data-validate="{ required: true }">
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Date of Birth</span>
+                            </label>
+                            <div class="control">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <select class="select" id="contact_dob_day" name="contact_dob_day"
+                                            data-bind="
+                                                value: contact().bodDay,
+                                                options: daysOfMonth
+                                            ">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="select" id="contact_dob_month" name="contact_dob_month"
+                                            data-bind="
+                                                value: contact().bodMonth,
+                                                options: monthsOfYear
+                                            ">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="select" id="contact_dob_year" name="contact_dob_year"
+                                            data-bind="
+                                                value: contact().bodYear,
+                                                options: years1940ToAgo18
+                                            ">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">
+                                <span>Landline Number</span>
+                            </label>
+                            <div class="control">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-7">
+                                        <input class="input-text" type="text" name="contact_landline_phone_number"
+                                               placeholder="" id="contact_landline_phone_number" maxlength="10" minlength="10"
+                                               size="10" data-validate="{ 'number': true }"
+                                               data-bind="value: contact().landlineNumber">
+                                    </div>
+                                    <div class="col-sm-12 col-md-5 refrrer">
+                                        <input type="radio" value="contact_landline_phone_number_referred"
+                                               name="contact_phone_number_referred"
+                                               data-bind="checked: contact().landlineNumberReferred"> Preferred contact number
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Mobile Number</span>
+                            </label>
+                            <div class="control">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-7">
+                                        <input class="input-text" type="text" name="contact_mobile_number"
+                                               placeholder="" id="contact_mobile_number" maxlength="10" minlength="10"
+                                               size="10" data-validate="{ required: true, 'number': true }"
+                                               data-bind="value: contact().mobileNumber">
+                                    </div>
+                                    <div class="col-sm-12 col-md-5 refrrer">
+                                        <input type="radio" value="contact_mobile_number_referred"
+                                               name="contact_phone_number_referred"
+                                               data-bind="checked: contact().mobileNumberReferred"> Preferred contact number
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Email Address</span>
+                            </label>
+                            <div class="control">
+                                <input class="input-text" type="text" name="contact_email" placeholder=""
+                                       id="contact_email" data-bind="value: contact().email"
+                                       data-validate="{ required: true, 'validate-email': true }">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Driving Licence Details -->
+                <fieldset class="driving-licence-details-fieldset">
+                    <legend class="label">
+                        <span>Driving Licence Details</span>
+                    </legend>
+                    <div class="control fieldset">
+                        <div class="field">
+                            <label class="label">
+                                <span>License State</span>
+                            </label>
+                            <div class="control">
+                                <select class="select" id="licence_state" name="licence_state"
+                                    data-bind="
+                                        value: drivingLicence().licenceState,
+                                        optionsCaption: 'Choose your drivers license state'
+                                    ">
+                                    <option value="ACT">ACT</option>
+                                    <option value="NSW">NSW</option>
+                                    <option value="NT">NT</option>
+                                    <option value="QLD">QLD</option>
+                                    <option value="SA">SA</option>
+                                    <option value="TAS">TAS</option>
+                                    <option value="VIC">VIC</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">
+                                <span>Licence Number</span>
+                            </label>
+                            <div class="control">
+                                <input class="input-text" type="number" name="licence_number" placeholder=""
+                                       id="licence_number" data-bind="value: drivingLicence().licenceNumber">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">
+                                <span>Licence Expiry Date</span>
+                            </label>
+                            <div class="control">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <select class="select" id="licence_expiry_day" name="licence_expiry_day"
+                                            data-bind="
+                                                value: drivingLicence().licenceExpiryDay,
+                                                options: daysOfMonth
+                                            ">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="select" id="licence_expiry_month" name="licence_expiry_month"
+                                            data-bind="
+                                                value: drivingLicence().licenceExpiryMonth,
+                                                options: monthsOfYear
+                                            ">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="select" id="licence_expiry_year"
+                                            name="licence_expiry_year"
+                                            data-bind="
+                                                value: drivingLicence().licenceExpiryYear,
+                                                options: yearsToNext20
+                                            ">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Billing Address -->
+                <fieldset class="billing-address-fieldset">
+                    <legend class="label">
+                        <span>Billing Address</span>
+                    </legend>
+                    <div class="control fieldset">
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Street</span>
+                            </label>
+                            <div class="control">
+                                <input class="input-text" type="text" name="billing_address_street_1"
+                                       placeholder="Street line 1" id="billing_address_street_1"
+                                       data-validate="{ required: true }"
+                                       data-bind="value: billingAddress().street[0]">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input-text" type="text" name="billing_address_street_2"
+                                       placeholder="Street line 2" id="billing_address_street_2"
+                                       data-bind="value: billingAddress().street[1]">
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <div class="control">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <input class="input-text" type="text" name="billing_address_suburb"
+                                               placeholder="Suburb" id="billing_address_suburb"
+                                               data-validate="{ required: true }"
+                                               data-bind="value: billingAddress().city">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input class="input-text" type="text" name="billing_address_postcode"
+                                               placeholder="Postcode" id="billing_address_postcode"
+                                               data-validate="{ required: true }"
+                                               data-bind="value: billingAddress().postcode">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input class="input-text" type="text" name="billing_address_state"
+                                               placeholder="State" id="billing_address_state"
+                                               data-validate="{ required: true }"
+                                               data-bind="value: billingAddress().region">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="additional-details-page-2" data-bind="fadeVisible: (currentPage() == 2 ? true : false)">
+                <p>Please provide your residence history for the last 3 years:</p>
+                <p>Your Residence History:</p>
+                <p>
+                    Your your finance application we need<br/>
+                    to ask you about your address
+                </p>
+
+                <a href="javascript:void(0)">Not your address?</a>
+
+                <fieldset class="residence-history-fieldset">
+                    <div class="control fieldset">
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Ownership</span>
+                            </label>
+                            <div class="control">
+                                <select class="select" id="residence_history_ownership"
+                                    name="residence_history_ownership"
+                                    data-bind="
+                                        value: residenceHistory().ownership
+                                    ">
+                                    <option value="Owner">Owner</option>
+                                    <option value="Mortgaged">Mortgaged</option>
+                                    <option value="Renting - Single">Renting - Single</option>
+                                    <option value="Renting - Shared">Renting - Shared</option>
+                                    <option value="Living with Family">Living with Family</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field _required">
+                            <label class="label">
+                                <span>Accommodation Type</span>
+                            </label>
+                            <div class="control">
+                                <select class="select" id="residence_history_accommodation_type"
+                                    name="residence_history_accommodation_type"
+                                    data-bind="
+                                        value: residenceHistory().accommodationType
+                                    ">
+                                    <option value="Nothing Selected">Nothing Selected</option>
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="House">House</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">
+                                <span>Time at Address</span>
+                            </label>
+                            <div class="control">
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span>From</span>
+                                    </label>
+                                    <div class="control">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <select class="select" id="residence_history_time_address_from_month"
+                                                    name="residence_history_time_address_from_month"
+                                                    data-bind="
+                                                        value: residenceHistory().timeAddressFromMonth,
+                                                        options: monthsOfYear
+                                                    ">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <select class="select" id="residence_history_time_address_from_year"
+                                                    name="residence_history_time_address_from_year"
+                                                    data-bind="
+                                                        value: residenceHistory().timeAddressFromYear,
+                                                        options: years1940ToNow
+                                                    ">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span>To</span>
+                                    </label>
+                                    <div class="control">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <select class="select" id="residence_history_time_address_to_month"
+                                                    name="residence_history_time_address_to_month"
+                                                    data-bind="
+                                                        value: residenceHistory().timeAddressToMonth,
+                                                        options: monthsOfYear,
+                                                    ">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <select class="select" id="residence_history_time_address_to_year"
+                                                    name="residence_history_time_address_to_year"
+                                                    data-bind="
+                                                        value: residenceHistory().timeAddressToYear,
+                                                        options: years1940ToNow
+                                                    ">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <a class="back-contact-details" href="javascript:void(0)" data-bind="event: { click: previousPage }">< back to Contact Details</a>
+
+                <!-- Employment History -->
+                <div class="hidden">
+                    <p>Please provide your employment history for the last 3 years:</p>
+                    <p>Your Employment History:</p>
+
+                    <fieldset class="employment-history-fieldset">
+                        <div class="control fieldset">
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Employment Status</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_status" placeholder="" id="employment_history_status">
+                                </div>
+                            </div>
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Occupation</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_occupation" placeholder="" id="employment_history_occupation">
+                                </div>
+                            </div>
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Current Employer</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_current_employer" placeholder="" id="employment_history_current_employer">
+                                </div>
+                            </div>
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Employers Postcode</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_employers_postcode" placeholder="" id="employment_history_employers_postcode">
+                                </div>
+                            </div>
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Street</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_street" placeholder="" id="employment_history_street">
+                                </div>
+                            </div>
+                            <div class="field _required">
+                                <label class="label">
+                                    <span>Town/City</span>
+                                </label>
+                                <div class="control">
+                                    <input class="input-text" type="text" name="employment_history_town_city" placeholder="" id="employment_history_town_city">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">
+                                    <span>Time at Current Employment</span>
+                                </label>
+                                <div class="control">
+                                    <div class="field _required">
+                                        <label class="label">
+                                            <span>From</span>
+                                        </label>
+                                        <div class="control">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <select class="select" id="employment_history_time_from_month"
+                                                        name="employment_history_time_from_month"
+                                                        data-bind="
+                                                            value: employmentHistory().timeCurrentEmploymentFromMonth,
+                                                            options: monthsOfYear
+                                                        ">
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select class="select" id="employment_history_time_from_year"
+                                                        name="employment_history_time_from_year"
+                                                        data-bind="
+                                                            value: employmentHistory().timeCurrentEmploymentFromYear,
+                                                            options: years1940ToNow
+                                                        ">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field _required">
+                                        <label class="label">
+                                            <span>To</span>
+                                        </label>
+                                        <div class="control">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <select class="select" id="employment_history_time_to_month"
+                                                        name="employment_history_time_to_month"
+                                                        data-bind="
+                                                            value: employmentHistory().timeCurrentEmploymentToMonth,
+                                                            options: monthsOfYear
+                                                        ">
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select class="select" id="employment_history_time_to_year"
+                                                        name="employment_history_time_to_year"
+                                                        data-bind="
+                                                            value: employmentHistory().timeCurrentEmploymentToYear,
+                                                            options: years1940ToNow
+                                                        ">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <div class="confirm-step-block">
+                        <input id="btn-continue" name="btn-continue" type="submit" value="Continue" class="action primary" data-role="opc-continue" data-bind="event: { click: clickContinue }" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

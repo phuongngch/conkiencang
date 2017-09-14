@@ -1,0 +1,210 @@
+<!--The 'part_exchange' value from the .js file should be used-->
+<li id="part_exchange">
+    <div class="step-title">
+        <span data-bind="i18n: '1 - Your Trade-in'" data-role="title"></span>
+        <span class="step-edit" data-bind="i18n: 'Edit', event: { click: navigateTo('part_exchange') }, fadeVisible: !isVisible()" data-role="edit"></span>
+    </div>
+    <div class="checkout-short-content" data-bind="text: checkoutShortContent(), fadeVisible: !isVisible()"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content" data-bind="fadeVisible: isVisible">
+        <form data-bind="event: { submit: navigateToNextStep }" novalidate="novalidate" class="swap_car_container" id="form-checkout-step-part-exchange">
+            <div class="actions-toolbar">
+                <div class="row">
+                    <div class="swap_car col-sm-6 col-md-5">
+                        <div class="border-wrapper tradein-form">
+                            <div><h1 class="tradein-h1">Let's find your car</h1></div>
+                            <!-- form search -->
+
+                                <div id="search_by_license">
+                                    <label for="state">Enter Your License Plate</label>
+                                    <select id="state" class="state" data-bind="value: tradeInState">
+                                        <option value="" >State</option>
+                                        <option value="VIC" selected="selected">VIC</option>
+                                        <option value="NSW">NSW</option>
+                                        <option value="QLD">QLD</option>
+                                    </select>
+
+                                    <input type="text" name="input_license_plate" value="" id="license_plate" placeholder="License Plate" data-bind="value: tradeInPlate"/>
+                                    <div class="action_btn_go action_btn_go_mobile clearfix">
+                                    <input name="trade_in_your_old_car" id="trade_in_your_old_car" type="button" class="action primary pull-right btn_valuation" data-bind="event: { click: clickButtonGo(true) }" value="GO"/>
+
+                                    </div>
+                                </div>
+
+                            <!-- end form search-->
+                        </div>
+                    </div>
+                    <div class="confirm-step-block col-sm-6 col-md-5">
+                        <div class="border-wrapper">
+                            <div class="current-tradein-car">
+                                <span class="before-price">Your current car is worth</span>
+                                <span class="price" data-bind="text: tradeInPrice">0</span>
+                                <span class="after-price">after you clear the payment left on it</span>
+                            </div>
+                            <input name="btn-ok-tradein" type="button" value="Finalise Trade-in" class="action primary" data-bind="event: { click: finaliseTradein(true) }, enable: checkTradeIn" />
+                            <input id="btn-without" name="btn-no-tradein" type="button" value="Continue without Trade-in" class="action primary2" data-bind="event: { click: clickContinueWithout }" />
+                        </div>
+                    </div>
+                    <div id="get_valuation" class="col-sm-12" style="display: none">
+                        <div class="get_valuation_content">
+                            <div><strong>MMM</strong>... We think your <span class="description">Renault Megane Scenic 1.6 Dynamique 5 Doors Petrol Automatic</span> is worth <span class="price">$500</span></div>
+                             <div>Are you still making payments on it?<br>
+                            (Your answer won't change the value.)</div>
+                            <div>We value your car based on what you've told us and what it's worth today.<br>
+                           This value can change if the details you have told us change or you choose to buy a car later.</div>
+                            <div>
+                                <label>Total left to pay: $</label>
+                                <input type="number" value="0" tabindex="0" data-bind="value: standingFinance"/>
+                            </div>
+                            <div>Do you want to continue?</div>
+                            <div>
+                                <input id="btn-no-tradein" name="btn-no-tradein" type="button" value="No thanks" class="action primary2" data-role="closeBtn" />
+                                <input id="btn-ok-tradein" name="btn-ok-tradein" type="button" value="Yes Please"  class="action primary" data-bind="attr: { entity_id: entityId }, event: { click: clickOkTradeInButton }" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tradein-modal" class="col-sm-12" style="display: none">
+                        <input type="hidden" value="" id="txt-vehicle-year" name="txt-vehicle-year">
+                        <input type="hidden" value="" id="txt-glass-code" name="txt-glass-code">
+                        <input type="hidden" value="" id="txt-tradein-valuation" name="txt-tradein-valuation">
+                        <input type="hidden" value="" id="txt-tradein-product" name="txt-tradein-product">
+                        <input type="hidden" value="" id="txt-check-condition" name="txt-check-condition">
+                        <input type="hidden" value="" id="finalise_state" name="finalise_state" data-bind="value: finalise_state">
+                        <input type="hidden" value="" id="finalise_plate" name="finalise_plate" data-bind="value: finalise_plate">
+                        <input type="hidden" value="" id="closebtn" data-role="closeBtn" >
+
+
+
+
+                        <div id="manual_trade_in" class="div-hidden">
+                            <h1>Manual Trade-In</h1>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-year">Vehicle Year</label>
+                                <select id="tradein-year" name="tradein-year" data-bind="event: { change: updateBrand }" class="">
+                                    <option value="0" selected>Year</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-make">Vehicle Brand</label>
+                                <select id="tradein-make" name="tradein-make" data-bind="event: { change: updateModel }"  class="">
+                                    <option value="0" selected>Brand</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-model">Vehicle Model</label>
+                                <select id="tradein-model" name="tradein-model" data-bind="event: { change: updateVariant }" class="">
+                                    <option value="0">Model</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-variant">Variant</label>
+                                <select id="tradein-variant" name="tradein-variant" class="">
+                                    <option value="0">Variant</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-series">Series</label>
+                                <select id="tradein-series" name="tradein-series" class="">
+                                    <option value="0">Series</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-style">Style</label>
+                                <select id="tradein-style" name="tradein-style" class="">
+                                    <option value="0">Style</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-engine">Engine</label>
+                                <select id="tradein-engine" name="tradein-engine" class="">
+                                    <option value="0">Engine</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-size">Size</label>
+                                <select id="tradein-size" name="tradein-size" class="">
+                                    <option value="0">Size</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-transmission">Transmission</label>
+                                <select id="tradein-transmission" name="tradein-transmission" class="">
+                                    <option value="0">Transmission</option>
+                                </select>
+                            </div>
+                            <div class="manual_trade_in_item">
+                                <label for="tradein-month">Month</label>
+                                <select id="tradein-month" name="tradein-month" class="">
+                                    <option value="0">Month</option>
+                                </select>
+                            </div>
+
+                            <div class="manual-toolbar">
+                                <input name="valuemycar_cancel" id="valuemycar_cancel" type="button" class="action primary pull-right btn_cancel btn_valuation" data-role="closeBtn" value="Cancel" />
+
+                                <input name="valuemycar" id="btn_valuemycar" type="button" class="action primary pull-right btn_red btn_valuation" value="Value My Car" data-bind="event: { click: getTradeinValuationManual }"  />
+
+                            </div>
+
+                        </div>
+
+                        <div id="get_valuation_content" class="get_valuation_content">
+                            <div id="your-car-confirmation" >
+                                    <h1 id="tradein-yourcar"></h1>
+                                    <h2 id="tradein-yourcar-specs"></h2>
+                            </div>
+                            <!-- End - Your Car Confirmation-->
+                            <div id="toolbar-confirmation">
+                                <div>
+                                    <input id="btn-no-tradein" name="btn-no-tradein" type="button" value="No" class="action primary2" data-bind="event: { click: manualTradein }" />
+                                    <input id="btn-confirm-tradein" name="btn-confirm-tradein" type="button" value="Yes"  class="action primary btn_red" data-bind="event: { click: confirmTradein }" />
+                                </div>
+                            </div>
+                            <!-- End - Toolbar Confirmation-->
+
+                            <div id="get_tradein_valuation" class="get_tradein_valuation">
+                                <div ><input name="kms" id="valuation_kms" class="valuation_kms" value="" type="text" placeholder="Kilometres Travelled"> <span>Km</span></div>
+                                <div class="tradein_message"><h1 id="valuation_message"></h1></div>
+                                <div id="vehicle_value" class="vehicle_value div-hidden">Estimated Value of Your Car is <h1 id="vehicle-value"></h1></div>
+                                <div id="estimated_value" class="estimated_value div-hidden"> Amount left to Pay on Your Car <span>$</span><input name="amount_owing" id="amount_owing" class="amount_owing" value="" type="text" placeholder="Amount Owing"></div>
+                            <ul class="ul-condition">
+                                <li>Condition</li>
+                                <li><input type="radio" id="condition-good" name="condition" checked value="1" data-bind="event: { click: reloadValuation }"> Good</li>
+                                <li><input type="radio" id="condition-fair" name="condition" value="2" data-bind="event: { click: reloadValuation }"> Fair</li>
+                                <li><input type="radio" id="condition-poor" name="condition" value="3" data-bind="event: { click: reloadValuation }"> Poor</li>
+                            </ul>
+                                <ul>
+
+                                    <li><input type="checkbox" checked id="two_key" value="" data-bind="event: { click: reloadValuation }" > Two Sets of Keys</li>
+                                    <li><input type="checkbox" checked id="private_import" value="" data-bind="event: { click: reloadValuation }" > Not a Private Import</li>
+                                    <li><input type="checkbox" id="personalised_plates" value="" data-bind="event: { click: reloadValuation }" > Personalised Plates</li>
+                                    <li><input type="checkbox" checked id="one_owner" value="" data-bind="event: { click: reloadValuation }" > 1 Owner</li>
+                                    <li><input type="checkbox" checked id="registered" value="" data-bind="event: { click: reloadValuation }" > Registered</li>
+                                    <li><input type="checkbox" checked id="service_history" value="" data-bind="event: { click: reloadValuation }" > Full Service History</li>
+                                    <li><input type="checkbox" checked id="written_off" value="" data-bind="event: { click: reloadValuation }" > Never Written Off</li>
+                                    <li><input type="checkbox" checked id="commerially" value="" data-bind="event: { click: reloadValuation }" > Not Used Commercially</li>
+
+                                </ul>
+                                <div class="get_valuation_toolbar">
+                                    <div class="accept-terms-conditions displaynone">
+                                        <input type="checkbox" id="accept" value="" data-bind="event: { click: acceptTerms }"> I accept the Trade-in <a href="/terms-conditions" target="_blank">Terms & Conditions</a>
+                                    </div>
+                                      <ul class="get_valuation_toolbar_ul">
+                                            <li id="btn_get_valuation_li"><input type="button" id="btn_get_valuation" value="Get Valuation" class="action primary pull-left btn_red btn_valuation" data-bind="event: { click: getTradeinValuation }" ></li>
+                                            <li id="btn_save_tradein_li" class="div-hidden"><input type="button" id="btn_save_tradein" value="Save Valuation" class="action primary pull-left btn_red btn_valuation opacity30" disabled data-bind="event: { click: saveTradeinValuation }" ></li>
+                                            <li id="btn_back_manual_li"><input type="button" id="btn_back_manual" value="Manual Trade-in" data-bind="event: { click: manualTradein }" class="action primary pull-left btn_valuation"></li>
+                                            <li><input type="button" id="btn_cancel_tradein" data-role="closeBtn" value="Cancel Trade-in" data-bind="event: { click: cancelTradein }" class="action primary pull-left btn_valuation"></li>
+                                      </ul>
+                                </div>
+                            </div>
+
+
+                            <!-- End Get Valuation -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

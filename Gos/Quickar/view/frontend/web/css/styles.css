@@ -1,0 +1,1448 @@
+input[type=button] { border: 0px; }
+
+.row div{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.page-layout-1column #maincontent .block.widget .products-grid .product-item {
+    width: 33.33%;
+    background-color: #ffffff;
+    padding: 20px 10px 10px;
+    margin: 5px;
+    max-width: 32.7%;
+    float: left;
+}
+.page-layout-1column #maincontent .block.widget .products-grid .product-item:nth-child(3n+1){
+    clear: both;
+    margin-left: 0;
+}
+.page-layout-1column #maincontent .block.widget .products-grid .product-item:nth-child(3n){
+    margin-right: 0;
+}
+.page-layout-1column #maincontent .block.widget .products-grid .product-item.item-wide{
+    width: 610px;
+    height: 400px;
+}
+.page-layout-1column #maincontent .block.widget .products-grid .product-item.item-high {
+    height: 485px;
+}
+.product-item-name > a, .product.name a > a {
+    color: #84BD00;
+    text-decoration: none;
+}
+.abs-product-link > a:visited, .product-item-name > a:visited, .product.name a > a:visited {
+    color: #df5c53;
+    text-decoration: none;
+}
+.abs-product-link > a:hover, .product-item-name > a:hover, .product.name a > a:hover {
+    color: #84BD00;
+    text-decoration: none;
+}
+.product-item-title .product-item-name{
+    font-size: 18px;
+    font-weight: bold;
+}
+.product-item-subtitle{
+    font-size: 16px;
+    color: #828282;
+    margin-bottom: 10px;
+}
+.product-item-subtitle a{ color: #828282 !important;}
+.product-item .price-box {
+    width: 35%;
+    display:inline-block;
+    color: #df5c53;
+}
+.product-item-info a:hover{
+    text-decoration: none;
+}
+.product-item .price-box .price_week{
+    display: block;
+    font-size: 36px;
+    font-weight: 400;
+}
+.product-item .price-box span{
+    font-size: 13px;
+}
+.product-item .price-box .price {
+    font-size: 32px;
+    color: #df5c53;
+}
+
+.product-item .price-month{
+    width: 35%;
+    text-align: center;
+    font-size: 20px;
+    color: #df5c53;
+    font-weight: bold;
+    margin-bottom: 10px;
+    line-height: normal;
+    position: relative;
+}
+.product-item-details > a{
+    display: inline-block;
+    width: 60%;
+    text-align: left;
+    line-height: normal;
+    padding-left: 5%;
+}
+.product-item-details > a .price-box{
+    width: 100%;
+}
+.product-item-details > a span{
+    font-size: 18px;
+    color: #df5c53;
+    font-weight: bold;
+}
+.product-item-title{
+    min-height: 55px;
+}
+.product-item-name a{
+    font-size: 18px;
+    line-height: normal;
+}
+.products-grid .product-item-name .product-item-link{
+    padding-left: 15px;
+    color: #df5c53;
+    display: block;
+}
+.product-item .price-month:after{
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    width: 2px;
+    height: 100%;
+    display: block;
+    background: #df5c53;
+}
+.product-item .price-month a{color: #df5c53;display: inline-block;}
+.product-item-icons .icong-box{
+    display: inline-block;
+    padding: 0px;
+    width: 53px;
+}
+.product-item-icons .icong-img{
+    width: 28px;
+    margin:0 auto;
+}
+.product-item-icons img{
+    width: 28px;
+}
+.product-item-icons .icong-title{
+    font-size: 10px;
+    text-align: center;
+    color: #828282;
+}
+
+
+.product-item .product-item-details-2{
+    /*margin-top: 10px;*/
+    position: relative;
+}
+
+.product-item .product-item-details-1 .offer-text{
+    color: #84BD00;
+    font-size: 28px;
+    font-weight: bold;
+    width: 120px;
+    margin-top: 5px;
+    line-height: 32px;
+    display: inline-block;
+}
+.product-item .product-item-details-1 .offer-text a{color:#84BD00; }
+.product-item .price-box-1{
+    background-color: #84BD00;
+    width: 140px;
+    float: right;
+    margin-top: 56px;
+    text-align: center;
+    padding: 10px 5px;
+}
+.price-box-1 .price-box{
+    color: #ffffff;
+}
+.price-box-1 .price-month,.price-box-1 .price-month a{
+    color: #ffffff;
+}
+
+.product-item .save-price-box{
+    background-color: #84BD00;
+    width: 130px;
+    height: 74px;
+    text-align: center;
+    padding: 10px 5px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 100;
+    margin-right: 130px;
+    margin-top: -40px;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 36px;
+}
+.product-item .save-price-box a{color: #fff;}
+
+.product-item .product-item-details-2 .offer-text{
+    width: 190px;
+    height: 74px;
+    text-align: center;
+    padding: 10px 5px;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    z-index: 100;
+    color: #828282;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 32px;
+}
+.product-item .product-item-details-2 .offer-text a{ color: #828282;}
+.product-item.item-wide .product-image-container{
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.product-item.item-wide .price-box-2{
+    position: absolute;
+    z-index: 100;
+    right: 20px;
+    top: 122px;
+    width: 150px;
+    text-align: center;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+button.accordion {
+    background-color: #f5f5f5;
+    color: #444;
+    cursor: pointer;
+    width: 25%;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+    border: 0px;
+    border-top:  1px;
+    border-radius: 0px;
+    border-style: dashed;
+    box-shadow: none;
+    font-size: 18px;
+    border-top: none;
+    border-right: 1px solid #dfdfdf;
+    float: left;
+    padding: 0 10px;
+    position: relative;
+    height: 77px;
+}
+button.accordion:focus{
+    background: #df5c53;
+    border-color: #df5c53;
+}
+
+button.accordion:hover > div > span,button.accordion:focus > div > span{
+    color: #fff;
+}
+button.accordion span,button.accordion .fil-text{
+     color: #444;
+}
+button.accordion:focus span,button.accordion:hover span{
+    color: #444;
+}
+button.accordion:nth-child(4n){border:none;}
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+
+button.accordion > .nav-icon {
+    height: 30px;
+    width: 30px;
+    background: no-repeat center center;
+    display: block;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    top: 6px;
+    right: 0px;
+}
+button.accordion.active{
+    background-color: #df5c53;
+    border-color: #df5c53;
+    color: #fff;
+
+}
+button.accordion.active .nav-icon{
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
+button.accordion.active span{
+    color:#fff;
+}
+button.accordion > .nav-icon.expand {
+    background-image: url(../images/expand.png);
+}
+
+button.accordion > .nav-icon.collapse {
+    background-image: url(../images/collapse.png);
+}
+button.accordion >div{
+    width: 95%;
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    top: 0;
+}
+button.accordion .fil-text{
+    display: block;
+    font-size: 11px;
+    float: left;
+    height: auto;
+    line-height: 14px;
+    text-decoration: underline;
+    position: absolute;
+    top: 42%;
+    color: #444;
+    text-transform: none;
+    font-style: italic;
+}
+button.accordion:hover .fil-text,button.accordion:focus .fil-text{
+    color:#fff;
+}
+button.accordion.active .fil-text{
+    color:#fff;
+}
+div.panel {
+    padding: 15px;
+    background-color: white;
+    width: 100%;
+    display: none;
+    margin-bottom: 0;
+}
+div.panel >div{
+    padding-top: 60px;
+}
+div.panel form{
+    padding-top: 10px;
+    display: table;
+    width: 100%;
+}
+div.panel form .swap_car{
+    padding-left: 0;
+}
+div.panel form select{
+    margin-bottom: 5px;
+}
+.reset-filter-panel{
+    clear: left;
+    padding-top: 1px;
+}
+#get_valuation #standing-finance{
+    max-width: 200px;
+}
+div.panel form input.btn_valuation,.reset-all-filters,
+    #btn-no-tradein,#btn-ok-tradein{
+    height: 31px;
+    background: #fff;
+    text-transform: uppercase;
+    margin-top: 5px;
+    max-width: 150px;
+    text-align: center;
+    padding-top: 5px;
+}
+.reset-icon {
+    border: 1px solid #dfdfdf;
+    padding: 7px;
+    float: left;
+    display: block;
+
+}
+.close-icon {
+    display: none;
+    margin-left: 5px;
+    padding: 7px;
+    background: #df5c53;
+    color: white;
+    height: 35px;
+	float: left;
+}
+
+.reset-all-filters{
+    clear: both;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.sliders{
+    width: 80%;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.slider-value{
+    display: inline-block;
+    color: #df5c53;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.slider-title{
+    color: #333;
+    font-size: 13px;
+    text-align:center;
+    margin-top:10px;
+}
+
+.slider-wrapper{
+    display: inline-block;
+    width: 100%;
+    text-align:center;
+}
+
+.slider-wrapper.wide{
+    width: 100%;
+    margin-bottom: 50px;
+}
+/*#slider-2.sliders{
+    width: 75%;
+}*/
+.slider-wrapper.wide .sliders{
+    width: calc(100% - 100px);
+}
+
+.slider-row{
+    padding: 15px 0px;
+}
+
+.button-row{
+    margin: 15px 0px;
+}
+
+.button-row button{
+    border-radius: 5px;
+    border: 0px;
+    color: #fff;
+}
+
+.button-row .active{
+    background-color: #df5c53;
+    color: #fff;
+}
+
+#month-panel:before,#month-panel:after{
+    content: "";
+    display: table;
+}
+#month-panel:after{
+    clear: both;
+}
+#full-panel{
+    display: none;
+    height: 140px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.navigation li.level0 {
+    top: 5px !important;
+}
+
+.navigation li.level0 span{
+    margin-top: 7px;
+}
+
+
+#maincontent{
+    padding: 0px;
+}
+
+#spinner{
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#spinner img{
+    height: 50px;
+}
+
+.property-item{
+    display: inline-block;
+    width: 20%;
+}
+
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px){
+    .property-input{
+        width: 100%;
+    }
+    .page-layout-1column #maincontent .block.widget .products-grid .product-item {
+        max-width: 32.4%;
+    }
+    button.accordion >div{
+        max-width: 81%;
+    }
+    button.accordion >div span{
+        font-size: 12px;
+        word-wrap: break-word;
+        white-space: normal;
+        line-height: 13px;
+        vertical-align: middle;
+    }
+
+    /*.slider-wrapper{
+        width: 43%;
+    }*/
+    .slider-wrapper.wide{
+        width: 100%;
+    }
+    .slider-wrapper.wide .sliders{
+        width: 94%;
+    }
+}
+@media (min-width: 992px) and (max-width: 1023px) {
+
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .property-input{
+        width: 100%!important;
+    }
+    button.accordion .fil-text{
+        top:50%;
+        line-height: 13px;
+    }
+}
+@media screen and (max-width:767px){
+    button.accordion,button.accordion:focus{
+        width: 100%;
+        max-width: 100%;
+        float: none;
+    }
+    button.accordion.active, button.accordion.active:hover{
+        background: #df5c53;
+    }
+    button.accordion.active span,button.accordion.active:hover span{
+        color:#fff;
+    }
+    button.accordion:hover span{
+        color:#444;
+    }
+    #full-panel{
+        width: 100%;
+    }
+    .slider-wrapper{
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin:0!important;
+        padding-bottom: 15px;
+    }
+    .reset-filter-panel{
+        margin-bottom: 8px;
+    }
+    #month-panel{
+        height: auto;
+    }
+    button.accordion:nth-child(4n){
+        border-bottom: 1px solid #dfdfdf;
+    }
+    div.panel >div {
+        padding-top: 0;
+    }
+    .page-layout-1column #maincontent .block.widget .products-grid .product-item {
+        width: 95%;
+        background-color: #ffffff;
+        padding: 10px;
+        margin: auto;
+        margin-bottom: 10px;
+        max-width: none;
+        float: none;
+        text-align: left;
+    }
+    .page-layout-1column #maincontent .block.widget .products-grid .product-item:nth-child(3n+1){
+        margin-left: auto;
+    }
+    .page-layout-1column #maincontent .block.widget .products-grid .product-item:nth-child(3n){
+        margin-right: auto;
+    }
+    .panel.features .type_box{
+        width: 50%;
+        padding-bottom: 10px;
+        float: left;
+    }
+    .panel.features .type_box label{
+        display: block;
+        margin-right: auto!important;
+        margin-left: auto;
+    }
+    .panel.features .type_box:last-child{
+        border: none;
+        padding-bottom: 0;
+    }
+    .panel.pay-title .slider-row{
+        padding-bottom: 0;
+    }
+}
+@media screen and (max-width:479px){
+    .panel.models .model_box{
+        width: 100%!important;
+        margin-bottom: 15px;
+    }
+    .panel.models .model_box img{
+        max-width: 80%;
+        margin: 0 auto;
+        display: block;
+    }
+    #models_slider{
+        margin-top: 0!important;
+    }
+    #swap_car fieldset .action_btn_go{
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+    }
+    #swap_car fieldset .action_btn_go input{
+        margin-top: 5px!important;
+    }
+}
+
+.panel.property{
+    color:#828282;
+}
+.property-head{
+    font-weight: bold;
+    padding-top: 10px;
+}
+.property-head:first-child { padding-top: 0px; }
+.panel.property .row{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.panel.property a{
+    color: #828282;
+    text-decoration: none;
+}
+
+.block.widget .product-item-info {
+    height: 100%;
+}
+.block.widget .product-item-info  .des_more{
+    padding-left: 10%;
+    margin-bottom: 10px;
+}
+.block.widget .product-item-info  .des_more p{
+    margin-bottom: 0;
+    color: #333333;
+    line-height: 15px;
+}
+.block.widget .product-item-info a.product-item-photo{
+    display: block;
+    text-align: center;
+}
+.block.widget .product-item-info .product-item-icons-wrapper {
+    position: static;
+    left: 15px;
+    bottom: 15px;
+    width: 100%;
+    max-width: 100%;
+}
+// quickar-product-list-grid
+.quickar-finder-index #maincontent{padding-top: 0;margin-top:0;}
+.product-item-subtitle{
+    display: none;
+}
+.product-item{
+    height: auto!important;
+}
+.product-image-containe{width: 100%!important;}
+.product-image-wrapper{
+    padding-bottom:0!important;
+}
+/* customize new design*/
+.alocolumns .button-row{
+    text-align: center;
+}
+.alocolumns .button-row .radio-inline{
+    width: 120px;
+    text-align: left;
+}
+/* custome style radio, checkbox button */
+.panel label{
+    position: relative;
+    color: #333;
+}
+.models.panel input[type=checkbox]{
+    display: none;
+}
+.models.panel input[type=checkbox] + label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid #dcdcdc;
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+.models.panel input[type=checkbox]:checked + label:before{
+    opacity:0;
+}
+.models.panel input[type=checkbox]:checked +label:after{
+    content: "\f14a";
+    font: normal normal normal 16px/1 FontAwesome;
+    width: 15px;
+    height: 15px;
+    color: #df5c53;
+    position: absolute;
+    left: 0;
+    top: 1px;
+    z-index: 1;
+}
+
+
+.panel.features .property-head{
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+.panel.features .type_box{
+    text-align: center;
+}
+.property-input{
+    text-align: center;
+    width:80%;
+    margin:0 auto;
+}
+.panel.features .property-input label{
+    margin-right: 15px;
+    text-align: left;
+    width: 80px;
+}
+.panel.models .model_box{
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+.pay-title.panel input[type="radio"]{
+    display: none;
+}
+.pay-title.panel input[type="radio"] + label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #dcdcdc;
+    background: transparent;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    z-index: 0;
+}
+.pay-title.panel input[type="radio"]:checked + label:before{
+    background: #df5c53;
+    border-color: #df5c53;
+}
+.pay-title.panel input[type="radio"]:checked + label:after{
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    display: block;
+    top: 7px;
+    left: 5px;
+    z-index: 1;
+}
+.features.panel input[type="radio"]{
+    display: none;
+}
+.features.panel input[type="radio"] + label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #dcdcdc;
+    background: transparent;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    z-index: 0;
+}
+.features.panel input[type="radio"]:checked + label:before{
+    background: #df5c53;
+    border-color: #df5c53;
+}
+.features.panel input[type="radio"]:checked + label:after{
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    display: block;
+    top: 7px;
+    left: 5px;
+    z-index: 1;
+}
+.panel.models .model_box img{
+    cursor: pointer;
+    max-width: 50%;
+    margin: 0 auto;
+}
+#models_slider.owl-carousel .owl-stage-outer{
+    width: 100%;
+}
+#models_slider .owl-nav .fa-chevron-left{
+    position: absolute;
+    top: 50%;
+    left: 0px;
+}
+#models_slider .owl-nav .fa-chevron-right{
+    position: absolute;
+    top: 50%;
+    right: 0px;
+}
+#models_slider .owl-nav .fa{
+    color: #333;
+    font-size: 18px;
+    cursor: pointer;
+}
+#swap_car fieldset label{
+    display: block;
+    padding-left: 15px;
+}
+#swap_car fieldset input[type='text']{
+    float: left;
+    width: 130px;
+    display: inline-block;
+    height: 35px;
+}
+#swap_car fieldset .action_btn_go{
+    float: left;
+    cursor: pointer;
+    margin-left: 15px;
+}
+#swap_car fieldset .action_btn_go input{
+    font-weight: bold;
+    color: #fff;
+    background: #df5c53;
+    padding: 0 25px;
+    margin-top: 0;
+    border-color: #df5c53;
+    height: 46px;
+    margin-top: -5px;
+}
+#swap_car .ui-selectmenu-text{
+    font-weight: bold;
+}
+#swap_car .ui-selectmenu-button.ui-button{
+    float: left;
+    width: 110px;
+    border-radius: 4px;
+    margin-right: 15px;
+    margin-top: 3px;
+}
+#swap_car .ui-button .ui-icon{
+    color: #333;
+}
+#swap_car .ui-icon-triangle-1-s{
+    background-position: -128px -16px;
+}
+.ui-menu .ui-menu-item > div{
+    padding-left: 30px;
+    font-weight:bold;
+}
+.ui-state-active:before{
+    content: "\f00c";
+    font: normal normal normal 16px/1 FontAwesome;
+    position: absolute;
+    left: 10px;
+}
+#swap_car .ui-selectmenu-icon.ui-icon{
+    margin-right: -12px;
+}
+.ui-widget.ui-widget-content{
+    border-radius:5px;
+    padding-top:5px;
+    box-shadow: 0px 0px 13px;
+}
+#models_slider{
+    margin-top: 20px;
+}
+
+
+/* Car Finder form */
+.car_information {
+	padding-left: 5px;
+}
+
+.search_by_license .selectstate {
+
+    width: 100px!important;
+}
+#show_content_ajax div.error
+{
+	color:#df5c53;font-size:16px;line-height: 35px;font-weight:normal;
+}
+#show_content_ajax div.success
+{
+	color:#444;font-size: 20px;font-weight:bold;line-height:35px;
+}
+#show_content_ajax div.success div
+{
+	padding-left:20px;
+	color:#444;font-size: 16px;font-weight:bold;line-height:35px;
+}
+#show_content_ajax input
+{
+
+	    color: #fff;
+	    background: #df5c53;
+	    padding: 0 25px;
+	    height: 35px;
+	    font-size: 15px;
+	    line-height: 35px;
+	    border: none;
+	    margin-left: 40px;
+        margin-bottom: 7px;
+}
+#show_content_ajax input#trade_in_your_old_car_no
+{
+	background:#cdcdcd
+}
+#show_content_ajax input#trade_in_your_old_car_value
+{
+	padding: 0 15px;
+	margin-right: -15px;
+}
+
+.car_extra_information {font-size: 13px!important;}
+
+#swap_car button.dropdown-toggle.required
+{
+	    border: 1px solid #df5c54;
+}
+input#input_license_plate.required
+{
+		background-color: #fff;
+	    border-color: #df5c54;
+	    outline: 0 none;
+	    box-shadow: 0 0 0 0px #df5c54;
+}
+
+.buttons {
+    float: right;
+}
+
+#manual_trade_in {
+
+    clear: both;
+    display: none;
+}
+
+#btn_valuemycar, #valuemycar_cancel {
+    text-transform: capitalize;
+}
+
+#get_valuation_trade_in, #estimated_value {
+    clear: both;
+    float: left;
+    display: none;
+}
+
+.get_valuation_trade_in_item, .estimated_value_item {
+    clear: both;
+}
+
+.get_valuation_trade_in_item input, .estimated_value_item input {
+    margin: 4px 2px 5px;
+}
+
+
+.get_valuation_trade_in_item ul li, .estimated_value_item ul li {
+    float: left;
+    display: block;
+    width: 220px;
+}
+
+.get_valuation_trade_in_item .fa-info, .estimated_value_item .fa-info{
+    content: "\f129";
+    background: #999;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+    line-height: 13px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-bottom: 2px;
+    margin-right: 3px;
+}
+
+    .get_valuation_trade_in_item .fa-info, .estimated_value_item .fa-info, .modal-content .fa-info{
+        content: "\f129";
+        background: #999;
+        border-radius: 50%;
+        width: 13px;
+        height: 13px;
+        color: #fff;
+        display: inline-block;
+        text-align: center;
+        font-size: 10px;
+        line-height: 13px;
+        cursor: pointer;
+        vertical-align: middle;
+        margin-bottom: 2px;
+        margin-right: 3px;
+    }
+
+    .get_valuation_trade_in_item ul, .estimated_value_item ul {
+        float: left;
+        display: block;
+        width: 900px;
+        margin-top: 0px;
+    }
+    .ul-condition {
+        margin-top: 10px!important;
+        margin-bottom: 0px;
+        padding: 0px;
+    }
+    .ul-condition li {width: 100px!important;}
+
+.get_valuation_trade_in_item ul, .estimated_value_item ul {
+    float: left;
+    display: block;
+    width: 900px;
+    margin-top: 20px;
+}
+
+.estimated_value_item .estimated_group {
+
+    float: left;
+    display: block;
+    width: 300px;
+}
+
+.estimated_value_item .estimated_label {
+    font-weight: bold;
+}
+
+.estimated_value_item .estimated_value {
+    font-size: 29px;
+}
+
+.estimated_value_item .estimated_value span{
+    float: left;
+    display: block;
+    padding: 0px 10px 0px 0px;
+    font-size: 29px;
+}
+
+.get_valuation_trade_in_item #btn_get_valuation, .estimated_value_item #btn_estimated, .estimated_value_item #btn_save_tradein {
+
+    background: #df5c53;
+    color: #fff;
+    text-transform: capitalize;
+    height: 35px;
+    padding: 0 25px;
+    font-weight: bold;
+    width: 141px;
+}
+
+#btn_back_manual {
+    width: 141px;
+    display: none;
+    text-transform: capitalize;
+    font-weight: bold;
+    color: white;
+    background: #cdcdcd;
+}
+
+.get_valuation_trade_in_item #btn_cancel_tradein, .estimated_value_item #btn_estimated_cancel{
+    background: #cdcdcd;
+    color: #fff;
+    text-transform: capitalize;
+    height: 35px;
+    padding: 0 25px;
+    font-weight: bold;
+	width: 141px;
+}
+
+.get_valuation_trade_in_item .your_car, .estimated_value_item .your_car {
+
+    padding-left: 2px;
+    font-weight: bold;
+    color: #df5c53;
+}
+
+.btn_cancel {
+
+    background: #cdcdcd!important;
+    color: #fff!important;
+    border-color: #cdcdcd!important;
+
+}
+
+.valuation_kms {
+    width: 200px!important;
+}
+
+.swap_car {
+
+    min-height: 100px;
+}
+
+.manual_trade_in_item {
+    float: left;
+    padding-right: 15px;
+
+}
+
+.manual_trade_in_item select{
+
+    width: 200px;
+
+}
+
+.manual_trade_in_item button{
+    width: 120px;
+
+}
+
+#manual_trade_in .action_btn_go {
+
+    margin-top: 25px;
+}
+
+.get_valuation_kms {
+
+    float: left;
+    display: block;
+    padding: 12px;
+}
+
+.get_valuation_trade_in_right, .estimated_value_right {
+
+    float: left;
+    display: block;
+    width: 200px;
+}
+
+.get_valuation_ul_right, .estimated_value_ul_right {
+
+    width: 200px!important;
+}
+
+.selectstate {
+	width: 70px;
+	float: left;
+	margin-right: 10px;
+	height: 35px;
+}
+
+#swap_car fieldset .action_btn_go input {
+	height: 35px;
+	margin-top: 0px;
+
+}
+
+.valuation_message {
+	color: #df5c53;
+}
+
+
+@media screen and (max-width: 1025px) {
+    .get_valuation_trade_in_item .get_valuation_trade_in_right .get_valuation_ul_right{
+        width: 350px!important;
+    }
+
+    .get_valuation_trade_in_item .get_valuation_trade_in_right .get_valuation_ul_right li{
+        width: 140px!important;
+        margin-right: 10px;
+    }
+
+    .estimated_value_ul_right {
+
+        width: 350px!important;
+    }
+    .estimated_value_ul_right li{
+        width: 140px!important;
+        margin-right: 10px;
+    }
+
+}
+
+@media screen and (max-width: 769px) {
+
+    .get_valuation_trade_in_item ul, .estimated_value_item ul {
+        width: 760px
+    }
+
+    .manual_trade_in_item {
+
+        width: 50%;
+    }
+
+    #show_content_ajax {
+        clear: both;
+        padding-top: 10px;
+        text-align: left;
+    }
+
+    #show_content_ajax span.success {
+        padding-left: 0px;
+    }
+
+    .btn_valuemycar_ipad {
+        clear: both;
+        margin-left: 0px!important;
+        margin-right: 10px;
+        width: 128px!important;
+    }
+
+    .get_valuation_trade_in_item .get_valuation_trade_in_right .get_valuation_ul_right{
+        width: 350px!important;
+    }
+
+    .get_valuation_trade_in_item .get_valuation_trade_in_right .get_valuation_ul_right li{
+        width: 140px!important;
+        margin-right: 10px;
+    }
+
+    .estimated_value_ul_right {
+
+        width: 350px!important;
+    }
+    .estimated_value_ul_right li{
+        width: 140px!important;
+        margin-right: 10px;
+    }
+
+    .estimated_value_item .estimated_group {
+        width: 265px;
+    }
+
+    #show_content_ajax input {
+        margin-left: 0px;
+        margin-right: 10px;
+    }
+
+}
+
+@media screen and (min-device-width: 376px) and (max-device-width: 668px) {
+    .get_valuation_trade_in_item ul, .estimated_value_item ul {
+        width: 600px
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .close-icon {
+        display: none;
+        float: left;
+        width: 100px!important;
+    }
+    .reset-all-filters {
+        max-width: 150px;
+    }
+    .home-slider, .page-title {
+        display: none;
+    }
+
+    .get_valuation_trade_in_item ul, .estimated_value_item ul {
+        width: 370px
+    }
+
+    #show_content_ajax input {
+        margin-left: 0px;
+        margin-right: 10px;
+    }
+
+    .manual_trade_in_item {
+        width: 100%;
+
+    }
+
+    #swap_car fieldset label {
+        padding-left: 2px;
+        margin-top: 10px;
+    }
+
+    .estimated_value_item .estimated_group {
+
+        clear: both;
+    }
+
+	#swap_car fieldset .action_btn_go{
+		width: 70px;
+		margin-top: -5px;
+
+	}
+
+    .car_extra_information {
+            float: left;
+            padding-left: 5px!important;
+    }
+
+    #swap_car fieldset input[type='text'] {
+        width: 115px!important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .modal-popup.modal-slide {
+        left: 0;
+    }
+
+    .modal-content #finder-panels-content .button-accordion {
+        width: 100%;
+        background: #df5c53;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .modal-content #finder-panels-content .button-accordion .title {
+        display: block;
+        font-size: 14px;
+        text-align: center;
+        white-space: nowrap;
+        text-transform: uppercase;
+        font-family: 'Zona Pro', sans-serif;
+    }
+
+    .modal-content #finder-panels-content .button-accordion .fil-text {
+        display: block;
+        font-size: 11px;
+        line-height: 14px;
+        text-decoration: underline;
+        text-transform: none;
+        font-style: italic;
+        text-align: center;
+    }
+
+    .modal-content .panel {
+        padding: 10px 0;
+    }
+
+    .modal-content .button-row {
+        text-align: center;
+    }
+
+    .modal-popup.modal-slide .modal-inner-wrap[class] {
+        background: #fff;
+    }
+
+}
+
+        
+    @media screen and (max-width: 376px) {
+        .ul-condition li:first-child {width: 300px!important;}
+        .close-icon {
+            display: none;
+            float: left;
+            width: 100px!important;
+        }
+        .reset-all-filters {
+            max-width: 150px;
+        }
+        .home-slider, .page-title {
+            display: none;
+        }
+
+        .get_valuation_trade_in_item ul, .estimated_value_item ul {
+            width: 370px
+        }
+
+        #show_content_ajax input {
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+
+        .manual_trade_in_item {
+            width: 100%;
+
+        }
+
+        #swap_car fieldset label {
+            padding-left: 2px;
+            margin-top: 10px;
+        }
+
+        .estimated_value_item .estimated_group {
+
+            clear: both;
+        }
+
+		#swap_car fieldset .action_btn_go{
+			width: 70px;
+			margin-top: -5px;
+
+		}
+
+        .car_extra_information {
+                float: left;
+                padding-left: 5px!important;
+        }
+
+        #swap_car fieldset input[type='text'] {
+            width: 115px!important;
+        }
+    }
+
+.opacity30 {
+    opacity: 0.3;
+}
+
+.modal-content h1{
+    border-bottom: 1px solid #999;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 24px;  
+}
+        

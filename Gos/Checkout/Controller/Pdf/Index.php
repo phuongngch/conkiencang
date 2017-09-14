@@ -1,0 +1,77 @@
+<?php
+
+
+namespace Gos\Checkout\Controller\Pdf;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
+class Index extends \Magento\Framework\App\Action\Action
+{
+    /**
+     * @var \Magento\Framework\App\Response\Http\FileFactory
+     */
+    protected $fileFactory;
+
+    /**
+     * @var \Magento\Backend\Model\View\Result\RedirectFactory
+     */
+    protected $resultRedirectFactory;
+
+    /**
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     */
+    protected $orderRepository;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    protected $date;
+
+    /**
+     * @var \Fooman\PrintOrderPdf\Model\Pdf\OrderFactory
+     */
+    protected $orderPdfFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context                $context
+     * @param \Magento\Framework\App\Response\Http\FileFactory   $fileFactory
+     * @param \Magento\Sales\Api\OrderRepositoryInterface        $orderRepository
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime        $date
+     */
+    
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Fooman\PrintOrderPdf\Model\Pdf\OrderFactory $orderPdfFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date
+    ) {
+        parent::__construct($context);
+        $this->fileFactory = $fileFactory;
+        $this->resultRedirectFactory = $context->getResultRedirectFactory();
+        $this->orderRepository = $orderRepository;
+        $this->orderPdfFactory = $orderPdfFactory;
+        $this->date = $date;
+    }
+
+    public function execute(){
+
+        $orderId = $this->getRequest()->getParam('order_id');
+        if ($orderId) {
+            $order = $this->orderRepository->get($orderId);
+            if ($order) {
+                $pdf = $this->orderPdfFactory->create()->getPdf([$order]);
+                $date = $this->date->date('Y-m-d_H-i-s');
+                return $this->fileFactory->create(
+                    'contract-' . $date . '.pdf',
+                    $pdf->render(),
+                    DirectoryList::VAR_DIR,
+                    'application/pdf'
+                );
+            }
+        }
+        //return $this->resultRedirectFactory->create()->setPath('/');    
+    }
+
+    
+}

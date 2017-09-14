@@ -1,0 +1,2107 @@
+<?php
+$defaultSliderVal = $block->getDefaultSlider();
+$propertyCounts = $block->getPropertyCounts();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$checkoutSession = $objectManager->get('\Magento\Checkout\Model\Session');
+$filterSessionParams = $checkoutSession->getFilterParams();
+
+$initPayment = isset($filterSessionParams['initPayment'])?$filterSessionParams['initPayment']:$defaultSliderVal['initPayment'];
+$duration = isset($filterSessionParams['duration'])?$filterSessionParams['duration']:$defaultSliderVal['duration'];
+$payPerMonth = isset($filterSessionParams['payPerMonth'])?$filterSessionParams['payPerMonth']:$defaultSliderVal['payPerMonth'];
+$numMiles = isset($filterSessionParams['numMiles'])?$filterSessionParams['numMiles']:$defaultSliderVal['numMiles'];
+$tradeInValue = isset($filterSessionParams['tradeInValue'])?$filterSessionParams['tradeInValue']:0;
+$amount_owing = isset($filterSessionParams['amount_owing'])?$filterSessionParams['amount_owing']:0;
+$payFullAmount = isset($filterSessionParams['payFullAmount'])?$filterSessionParams['payFullAmount']:10000;
+$transmission_type = isset($filterSessionParams['transmission_type'])?$filterSessionParams['transmission_type']:['Any','Any'];
+$selectedCarModels = isset($filterSessionParams['name'])?$filterSessionParams['name']:[];
+
+?>
+<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('car_finder')->toHtml(); ?>
+<div>
+    <div class="button-accordions">
+        <button class="accordion" id="trade-in-title" >
+            <div class="title"><span>Trade In Your Old Car</span></div>
+            <a class="nav-icon pull-right expand"></a>
+            <div class="fil-text">(No Trade-in selected)</div>
+        </button>
+        <button class="accordion" id="pay-title" >
+            <div class="title"><span>Set Your Budget</span></div>
+            <a class="nav-icon pull-right expand"></a>
+            <div class="fil-text">(No Budget Set)</div>
+        </button>
+        <button class="accordion" id="features" >
+            <div class="title"><span>Choose Your Preferences</span></div>
+            <a class="nav-icon pull-right expand"></a>
+            <div class="fil-text">(All Vehicle Types)</div>
+        </button>
+        <button class="accordion" id="models">
+            <div class="title"><span>Select Your Models</span></div>
+            <a class="nav-icon pull-right expand"></a>
+            <div class="fil-text">(All Avalable Models)</div>
+        </button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="all-finder-forms"></div>
+
+    <div class="finder-tabs">
+        <div id="finder-panels">
+            <div id="finder-panels-content">
+                <div class="button-accordion">
+                    <div class="title"></div>
+                    <div class="fil-text"></div>
+                </div>
+                <div class="panel trade-in-title">
+                    <form action="swap_car" method="post" name="swap car" target="_parent" class="swap_car_container" id="swap_car">
+                        <div class="swap_car col-sm-12">
+
+                            <fieldset id="form_trade_in_your_old_car">
+                                <div id="search_by_license">
+                                    <label for="basic">Enter Your License Plate</label>
+                                    <select id="basic" class="selectstate">
+                                        <option value="" >State</option>
+                                        <option value="VIC" selected="selected">VIC</option>
+                                        <option value="NSW">NSW</option>
+                                        <option value="QLD">QLD</option>
+                                    </select>
+
+                                    <input type="text" name="input_license_plate" value="" id="input_license_plate" placeholder="License Plate"/>
+                                    <div class="action_btn_go action_btn_go_mobile clearfix">
+                                        <input name="trade_in_your_old_car" id="trade_in_your_old_car" type="button" class="action primary pull-right btn_valuation" value="GO"/>
+                                    </div>
+
+                                    <div class="action_btn_go action_btn_go_mobile edit_btn clearfix">
+                                        <input name="edit_tradein" id="edit_tradein_btn" type="button" class="action primary pull-right btn_valuation" value="Edit Trade-in"/>
+                                    </div>
+
+
+                                </div>
+                                <div id="show_content_ajax"></div>
+
+                                <div id="manual_trade_in">
+
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-year">Vehicle Year</label>
+                                        <select id="tradein-year" name="tradein-year" class="">
+                                            <option value="0" selected>Year</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-make">Vehicle Brand</label>
+                                        <select id="tradein-make" name="tradein-make" class="">
+                                            <option value="0" selected>Brand</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-model">Vehicle Model</label>
+                                        <select id="tradein-model" name="tradein-model" class="">
+                                            <option value="0">Model</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-variant">Variant</label>
+                                        <select id="tradein-variant" name="tradein-variant" class="">
+                                            <option value="0">Variant</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-series">Series</label>
+                                        <select id="tradein-series" name="tradein-series" class="">
+                                            <option value="0">Series</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-style">Style</label>
+                                        <select id="tradein-style" name="tradein-style" class="">
+                                            <option value="0">Style</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-engine">Engine</label>
+                                        <select id="tradein-engine" name="tradein-engine" class="">
+                                            <option value="0">Engine</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-size">Size</label>
+                                        <select id="tradein-size" name="tradein-size" class="">
+                                            <option value="0">Size</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-transmission">Transmission</label>
+                                        <select id="tradein-transmission" name="tradein-transmission" class="">
+                                            <option value="0">Transmission</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual_trade_in_item">
+                                        <label for="tradein-month">Month</label>
+                                        <select id="tradein-month" name="tradein-month" class="">
+                                            <option value="0">Month</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="action_btn_go btn_valuemycar_ipad clearfix">
+                                        <input name="valuemycar" id="btn_valuemycar" type="button" class="action primary pull-right btn_valuation" value="Value My Car" />
+                                    </div>
+
+                                    <div class="action_btn_go clearfix">
+                                        <input name="valuemycar_cancel" id="valuemycar_cancel" type="button" class="action primary pull-right btn_cancel btn_valuation" value="Cancel" />
+                                    </div>
+
+                                </div>
+
+                                <div id="get_valuation_trade_in">
+                                    <input type="hidden" id="txt-vehicle-year" name="txt-vehicle-year" value="">
+                                    <input type="hidden" id="txt-glass-code" name="txt-glass-code" value="">
+                                    <div class="get_valuation_trade_in_item">
+                                        <div id="your_car" class="your_car"></div>
+                                        <div id="your_car_2" ></div>
+                                        <div ><input name="kms" id="valuation_kms" class="valuation_kms" value="" type="text" placeholder="Kilometres Travelled"> </div>
+                                        <div class="get_valuation_kms">Km</div>
+                                        <div class="get_valuation_kms" id="kms_checking_message"></div>
+                                    </div>
+                                    <div class="get_valuation_trade_in_item">
+                                        <ul class="ul-condition">
+                                            <li>Condition</li>
+                                            <li><input type="radio" id="condition-good" name="condition" checked value="1"> Good <i id="good-condition-info" class="fa fa-info" aria-hidden="true"></i></li>
+                                            <li><input type="radio" id="condition-fair" name="condition" value="2"> Fair <i id="fair-condition-info" class="fa fa-info" aria-hidden="true"></i></li>
+                                            <li><input type="radio" id="condition-poor" name="condition" value="3"> Poor <i id="poor-condition-info" class="fa fa-info" aria-hidden="true"></i></li>
+                                        </ul>
+                                        <ul>
+                                            <li><input type="checkbox" checked id="two_key" value=""> Two Sets of Keys</li>
+                                            <li><input type="checkbox" checked id="private_import" value=""> Not a Private Import</li>
+                                            <li><input type="checkbox"  id="personalised_plates" value=""> Personalised Plates</li>
+                                            <li><input type="checkbox" checked id="one_owner" value=""> 1 Owner</li>
+                                            <li><input type="checkbox" checked id="registered" value=""> Registered</li>
+                                            <li><input type="checkbox" checked id="service_history" value=""> Full Service History</li>
+                                            <li><input type="checkbox" checked id="written_off" value=""> Never Written Off</li>
+                                            <li><input type="checkbox" checked id="commerially" value=""> Not Used Commercially</li>
+                                            <!--
+                                            <li><input type="checkbox" checked id="transmission" value=""> Automatic Transmission</li>
+                                            <li><input type="checkbox" checked id="engine" value=""> Petrol Engine</li> -->
+                                        </ul>
+                                        <div class="get_valuation_trade_in_right">
+                                            <ul class="get_valuation_ul_right">
+                                                <li><input type="button" id="btn_get_valuation" value="Get Valuation" class="action primary pull-right btn_valuation"></li>
+                                                <li><input type="button" id="btn_back_manual" value="Manual Trade-in" class="action primary pull-right btn_valuation"></li>
+                                                <li><input type="button" id="btn_cancel_tradein" value="Cancel Trade-in" class="action primary pull-right btn_valuation"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div id="estimated_value">
+                                    <input type="hidden" id="txt-tradein-product" name="txt-tradein-product" value="">
+                                    <input type="hidden" id="txt-tradein-valuation" name="txt-tradein-valuation" value="">
+                                    <div class="estimated_value_item">
+                                        <div class="estimated_group">
+                                            <div id="estimated_your_car" class="your_car"></div>
+                                            <div id="estimated_your_car_2" ></div>
+                                            <div ><input name="kms" id="valuation_kms_2" class="valuation_kms" value="" type="text" placeholder="Kilometres Travelled"> </div><div class="get_valuation_kms">Km</div>
+                                        </div>
+                                        <div class="estimated_group">
+                                            <div class="estimated_label">Estimated Value of Your Car is</div>
+                                            <div class="estimated_value" id="estimated_valuation"></div>
+                                            <div class="valuation_message" id="valuation_message"></div>
+                                        </div>
+                                        <div class="estimated_group">
+                                            <div class="estimated_label">Amount left to Pay on Your Car</div>
+                                            <div class="estimated_value"><span>$</span><input name="amount_owing" id="amount_owing" class="amount_owing" value="" type="text" placeholder="Amount Owing"></div>
+                                        </div>
+                                    </div>
+                                    <div class="estimated_value_item">
+                                        <ul class="ul-condition">
+                                            <li>Condition</li>
+                                            <li><input type="radio" id="condition-good2" name="condition2" checked value="1"> Good <i id="good-condition-info2" class="fa fa-info" aria-hidden="true"></i></li>
+                                            <li><input type="radio" id="condition-fair2" name="condition2" value="2"> Fair <i id="fair-condition-info2" class="fa fa-info" aria-hidden="true"></i></li>
+                                            <li><input type="radio" id="condition-poor2" name="condition2" value="3"> Poor <i id="poor-condition-info2" class="fa fa-info" aria-hidden="true"></i></li>                   
+                                        </ul>
+                                        <ul>
+                                            <li><input type="checkbox" id="two_key_2" value=""> Two Sets of Keys</li>
+                                            <li><input type="checkbox" id="private_import_2" value=""> Not a Private Import</li>
+                                            <li><input type="checkbox" id="personalised_plates_2" value=""> Personalised Plates</li>
+                                            <li><input type="checkbox" id="one_owner_2" value=""> 1 Owner</li>
+                                            <li><input type="checkbox" id="registered_2" value=""> Registered</li>
+                                            <li><input type="checkbox" id="service_history_2" value=""> Full Service History</li>
+                                            <li><input type="checkbox" id="written_off_2" value=""> Never Written Off</li>
+                                            <li><input type="checkbox" id="commerially_2" value=""> Not Used Commercially</li>
+                                            <!-- <li><input type="checkbox" id="transmission_2" value=""> Automatic Transmission</li>
+                                             <li><input type="checkbox" id="engine_2" value=""> Petrol Engine</li> -->
+                                        </ul>
+                                        <div class="estimated_value_right">
+                                            <ul class="estimated_value_ul_right">
+                                                <li><input type="button" id="btn_save_tradein" disabled="disabled" value="Save Trade-in" class="action primary pull-right btn_valuation opacity30 inputDisabled"></li>
+                                                <li><input type="button" id="btn_estimated_cancel" value="Cancel Trade-in" class="action primary pull-right btn_valuation"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="estimated_value_item" style="text-align:right;">
+                                        <?php
+                                            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                            $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+                                            
+
+                                        ?>
+                                        <input type="checkbox" id="accept" value=""> I accept the Trade-in <a href="<?php echo $storeManager->getStore()->getBaseUrl();?>terms-conditions" target="_blank">Terms & Conditions</a>
+                                    </div>    
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+                        <div id="get_valuation" class="col-sm-12" style="display: none">
+                            <div class="get_valuation_content">
+                                <div><strong>MMM</strong>... We think your <span class="description">Renault Megane Scenic 1.6 Dynamique 5 Doors Petrol Automatic</span> is worth <span class="price">$500</span></div>
+                                <div>Are you still making payments on it?<br>
+                                    (Your answer won't change the value.)</div>
+                                <div>We value your car based on what you've told us and what it's worth today.<br>
+                                    This value can change if the details you have told us change or you choose to buy a car later.</div>
+                                <div>
+                                    <label>Total left to pay: $</label>
+                                    <input type="number" value="0" tabindex="0" id="standing-finance"/>
+                                </div>
+                                <div>Do you want to continue?</div>
+                                <div>
+                                    <input id="btn-no-tradein" name="btn-no-tradein" type="button" value="No thanks" class="action primary2" data-role="closeBtn" />
+                                    <input id="btn-ok-tradein" name="btn-ok-tradein" type="button" value="Yes Please"  class="action primary" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="panel pay-title">
+                    <div>
+
+                        <div class="button-row">
+
+                            <input name="setBudget" id="radio1" value="monthly" checked="" onclick="showMonthPanel()" type="radio">
+                            <label class="radio-inline" for="radio1">Monthly</label>
+                            <input name="setBudget" id="radio2" value="payinfull" onclick="showFullPanel()" type="radio">
+                            <label class="radio-inline" for="radio2">Pay In Full</label>
+                        </div>
+
+                        <div  id="month-panel">
+
+
+                            <div class="slider-row col-sm-4 col-xs-12">
+                                <div class="slider-wrapper">
+                                    <div class="sliders" id="slider-3"></div>
+                                    <div class="slider-title">Deposit Amount:<span class="slider-value" id="slider-3-value">$750<span></div>
+                                </div>
+                            </div>
+
+                            <div class="slider-row col-sm-4 col-xs-12">
+                                <div class="slider-wrapper">
+                                    <div class="sliders" id="slider-1"></div>
+                                    <div class="slider-title">Monthly Payment:<span class="slider-value" id="slider-1-value">$450</span></div>
+                                </div>
+                            </div>
+
+                            <div class="slider-row col-sm-4 col-xs-12">
+                                <div class="slider-wrapper">
+                                    <div class="sliders" id="slider-2"></div>
+                                    <div class="slider-title">Payment Term:<span class="slider-value" id="slider-2-value">48 months</span></div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="full-panel">
+                            <div class="slider-row">
+                                <div class="slider-wrapper wide">
+                                    <div class="slider-title">What is your total budget?</div>
+                                    <div class="sliders" id="slider-5"></div>
+                                    <div class="slider-value" id="slider-5-value">$10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel features">
+                    <div>
+                        <div class="row">
+
+                            <div class="col-sm-6 type_box">
+                                <div class="property-head col-sm-12">Tranmission Types</div>
+                                <div class="property-input">
+                                    <input name="tranmission" class="tranmissioncheck"  id="manualcheckbox"  type="radio" value="Manual">
+                                    <label class="radio-inline" for="manualcheckbox">Manual</label>
+
+                                    <input name="tranmission" class="tranmissioncheck"  id="autochekbox" type="radio" value="Auto">
+                                    <label class="radio-inline" for="autochekbox">Automatic</label>
+
+                                    <input name="tranmission" class="tranmissioncheck"  id="anychekbox" checked="" type="radio" value="Any">
+                                    <label class="radio-inline" for="anychekbox">Any</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 type_box">
+                                <div class="property-head col-sm-12">Fuel Types</div>
+                                <div class="property-input">
+                                    <input name="fuel" class="fuelcheck" id="petrolcheckbox" type="radio" value="Petrol">
+                                    <label class="radio-inline" for="petrolcheckbox">Petrol</label>
+
+                                    <input name="fuel" class="fuelcheck" id="dieselcheckbox" type="radio" value="Diesel">
+                                    <label class="radio-inline" for="dieselcheckbox">Diesel</label>
+
+                                    <input name="fuel"  class="fuelcheck" id="anyfuelcheckbox" checked="" type="radio" value="Any">
+                                    <label class="radio-inline" for="anyfuelcheckbox">Any</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel models">
+                    <div>
+                        <!-- new styling -->
+                        <div class="row">
+                            <div id="models_slider" class=" owl-carousel owl-theme">
+
+                                <?php
+                                $carModelsFilter[0] = array("model" => "Astra Hatch", "img" => "images/models/astra-hatch-small.jpeg");
+                                $carModelsFilter[1] = array("model" => "Astra Sedan", "img" => "images/models/astra-sedan-small.jpeg");
+                                $carModelsFilter[2] = array("model" => "Barina", "img" => "images/models/barina-small.jpeg");
+                                $carModelsFilter[3] = array("model" => "Caprice", "img" => "images/models/caprice-small.jpg");
+                                $carModelsFilter[4] = array("model" => "Captiva", "img" => "images/models/captiva-small.png");
+                                $carModelsFilter[5] = array("model" => "Colorado", "img" => "images/models/colorado-small.jpg");
+                                $carModelsFilter[6] = array("model" => "Commodore Sedan", "img" => "images/models/commodore-small.jpg");
+                                $carModelsFilter[7] = array("model" => "Commodore Sportwagon", "img" => "images/models/commodore-Sportwagon.jpg");
+                                $carModelsFilter[8] = array("model" => "Spark", "img" => "images/models/spark-small.jpg");
+                                $carModelsFilter[9] = array("model" => "Traiblazer", "img" => "images/models/traiblazer-small.jpg");
+                                $carModelsFilter[10] = array("model" => "Trax", "img" => "images/models/trax-small.jpg");
+                                $carModelsFilter[11] = array("model" => "Ute", "img" => "images/models/ute-small.jpg");
+
+                                foreach ($carModelsFilter as $key => $carmodel) {
+
+                                    $NoCarModelType = $block->countCarModelItems($carmodel['model']);
+
+                                    if ($NoCarModelType > 0) {
+
+
+                                        ?>
+                                        <div class="model_box item">
+                                            <img src="<?php echo $this->getViewFileUrl($carmodel['img']); ?>" alt="<?php echo $carmodel['model']; ?>" />
+                                            <input name="modelsCar" id="model_<?php echo $key; ?>" class="carmodelcheck" type="checkbox" value="<?php echo $carmodel['model']; ?>">
+                                            <label class="radio-inline carmodel" for="model_<?php echo $key; ?>"><?php echo $carmodel['model']; ?></label>
+                                        </div>
+
+                                        <?php
+                                    }//end if
+                                } // end foreach
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End tab content -->
+    <div class="reset-filter-panel" >
+        <div class="reset-all-filters"><span class="reset-icon" id="reset-all-btn">Reset all filters </span><span class="close-icon" id="close-all-btn">Close</span></div>
+
+    </div>
+</div>
+<div id="quickar-product-list-grid">
+</div>
+<div id="spinner">
+    <img src="<?php echo $block->getViewFileUrl('images/spinner.gif'); ?>">
+</div>
+<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('car_finder_bottom')->toHtml(); ?>
+<script type="text/javascript">
+
+    var defaultValSlider = {
+        payPerMonth: <?php echo $defaultSliderVal['payPerMonth'] ?>,
+        duration: <?php echo $defaultSliderVal['duration'] ?>,
+        initPayment: <?php echo $defaultSliderVal['initPayment'] ?>,
+        numMiles: <?php echo $defaultSliderVal['numMiles'] ?>
+    };
+
+    var payPerMonth = <?php echo $payPerMonth?>;
+    var duration = <?php echo $duration?>;
+    var initPayment = <?php echo $initPayment?>;
+    var numMiles = <?php echo $numMiles?>;
+    var isPayFull = <?php echo ($payFullAmount>10000)?'true':'false'?>;
+    var payFullAmount = <?php echo $payFullAmount?>;
+    var isFresh = <?php echo empty($filterSessionParams)?'true':'false'?>;
+
+    var handle;
+
+    var initPage = true;
+    var slider1,slider2,slider3,slider4,slider5;
+
+    var carmodels = <?php echo json_encode($selectedCarModels)?>;
+
+    // preference checkbox
+    var feature = [];
+    feature['Tranmission'] = '<?php echo $transmission_type[0]?>';
+    feature['Fuel'] = '<?php echo $transmission_type[1]?>';
+
+    require(
+        [
+            'jquery',
+            'nouislider',
+            'Magento_Ui/js/modal/modal',
+        ], function($, nouislider, modal){
+        $(window).load(function() {
+            // ===
+            function checkResizeWindow() {
+                $('.accordion').off('click');
+                // $('.accordion').unbind('click');
+                // $('.accordion').unbind('modal');
+                let windowWidth = $(window).width();
+
+                // Mobile
+                if (windowWidth < 768) {
+                    $('.panel.showed').removeClass('showed').slideUp();
+                    $('#close-all-btn').hide();
+
+                    $('.accordion').click(function() {
+                        let options = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: '',
+                            buttons: [],
+                        };
+
+                        var popup = modal(options, $('#finder-panels-content'));
+                        $('#finder-panels-content').modal('openModal');
+                        $('#finder-panels-content .title').html($(this).find('.title').html());
+                        $('#finder-panels-content .fil-text').html($(this).find('.fil-text').html());
+                    })
+                } else {
+                    if (!$('#finder-panels').find('#finder-panels-content').length) {
+                        $('#finder-panels-content').appendTo('#finder-panels');
+                    }
+                }
+
+                $('button.accordion').on('click', function(event) {
+                    id = $(this).attr('id');
+                    var panel = '.panel.' + id;
+
+                    if (!$(panel).hasClass('showed')) {
+                        $('.panel.showed').removeClass('showed').slideUp();
+                        $(panel).addClass('showed').slideDown();
+                        $('button.accordion.active').removeClass('active');
+                        $(this).addClass('active');
+                        $(document).scrollTop( $("#"+id).offset().top -10);
+                        $('#close-all-btn').show();
+                        $('.reset-all-filters').css( "max-width", "250px" );
+                    } else if (windowWidth >= 768) {
+                        $('.panel.showed').removeClass('showed').slideUp();
+                        $('button.accordion.active').removeClass('active');
+                        $('#close-all-btn').hide();
+                        $('.reset-all-filters').css( "max-width", "150px" );
+                    }
+                });
+            }
+
+            checkResizeWindow();
+
+            $(window).resize(function() {
+                checkResizeWindow();
+            });
+
+            loadProductsTimeout(0);
+
+            // ===
+            var noUiSlider = require('nouislider');
+
+            slider1 = document.getElementById('slider-1');
+
+            noUiSlider.create(slider1, {
+                start: [payPerMonth],
+                connect: [true, false],
+                step: 20,
+                range: {
+                    'min': 150,
+                    'max': 750
+                }
+            });
+
+            $('#slider-1-value').text('$'+payPerMonth.toLocaleString());
+
+            slider1.noUiSlider.on('update', function( values, handle ) {
+
+                if(initPage)return;
+
+                var value = values[handle];
+                value = Math.floor(value);
+                $('#slider-1-value').text('$'+value.toLocaleString());
+
+                payPerMonth  = value;
+                updatePayTitle(payPerMonth, duration, initPayment);
+
+                loadProductsTimeout();
+            });
+
+
+            slider2 = document.getElementById('slider-2');
+
+            noUiSlider.create(slider2, {
+                start: [duration],
+                connect: [true, false],
+                step: 12,
+                range: {
+                    'min': 12,
+                    'max': 60
+                }
+            });
+
+            $('#slider-2-value').text(duration + ' months');
+
+            slider2.noUiSlider.on('update', function( values, handle ) {
+
+                if(initPage)return;
+
+                var value = values[handle];
+                value = Math.floor(value);
+                $('#slider-2-value').text(value + ' months');
+
+                duration = value;
+                updatePayTitle(payPerMonth, duration, initPayment);
+
+                loadProductsTimeout();
+            });
+
+
+
+            slider3 = document.getElementById('slider-3');
+
+            noUiSlider.create(slider3, {
+                start: [initPayment],
+                connect: [true, false],
+                step: 50,
+                range: {
+                    'min': 750,
+                    'max': 2500
+                }
+            });
+
+            $('#slider-3-value').text('$'+initPayment.toLocaleString());
+
+            slider3.noUiSlider.on('update', function( values, handle ) {
+
+                if(initPage)return;
+
+                var value = values[handle];
+                value = Math.floor(value);
+                $('#slider-3-value').text('$'+value.toLocaleString());
+
+                initPayment = value;
+                updatePayTitle(payPerMonth, duration, initPayment);
+
+                loadProductsTimeout();
+
+            });
+
+
+
+            slider5 = document.getElementById('slider-5');
+
+            noUiSlider.create(slider5, {
+                start: [payFullAmount],
+                connect: [true, false],
+                step: 1000,
+                range: {
+                    'min': 10000,
+                    'max': 65000
+                }
+            });
+
+            $('#slider-5-value').text('$'+payFullAmount.toLocaleString());
+
+            slider5.noUiSlider.on('update', function( values, handle ) {
+
+                if(initPage){
+                    initPage = false;
+                    return;
+                }
+
+                var value = values[handle];
+                value = Math.floor(value);
+                $('#slider-5-value').text('$'+value.toLocaleString());
+
+                payFullAmount = value;
+                loadProductsTimeout();
+                isPayFull = true;
+
+                var title = 'I\'m paying up to $' +value + ' in full ' ;
+                $('#pay-title .fil-text').text(title);
+            });
+
+            // Reset All Filters
+            $('#reset-all-btn').click(function(e) {
+
+                // Reset Trade In value
+                $("#txt-tradein-product").val('');
+                $("#txt-tradein-valuation").val(0);
+                $("#edit_tradein_btn").hide();
+
+                var ajaxurl = '<?php echo $this->getUrl("tradein/valuation/destroy");?>';
+                $.ajax({
+                    url:ajaxurl,
+                    type:'POST',
+                    showLoader: true,
+                    dataType:'json',
+                    data: {},
+                    success:function(response){
+                        if(response.status == "1")
+                        {
+
+
+                        }
+                    }
+                });
+
+                // Reset pay
+                if (payPerMonth != defaultValSlider.payPerMonth || duration != defaultValSlider.duration || initPayment != defaultValSlider.initPayment || numMiles != defaultValSlider.numMiles) {
+
+                }
+
+                // Reset variables
+                payPerMonth = defaultValSlider.payPerMonth;
+                duration = defaultValSlider.duration;
+                initPayment = defaultValSlider.initPayment;
+                numMiles = defaultValSlider.numMiles;
+                payFullAmount = 10000;
+
+                // Reset checkbox budget
+                slider5.noUiSlider.set([0]);
+                // Reset slider
+                slider1.noUiSlider.set([payPerMonth]);
+                slider2.noUiSlider.set([duration]);
+                slider3.noUiSlider.set([initPayment]);
+                // slider4.noUiSlider.set([numMiles]);
+                slider5.noUiSlider.set([payFullAmount]);
+
+                // Reset pay title
+                $('#pay-title .fil-text').text('(No Budget Set)');
+
+                // Reset trade-in title
+                $('#trade-in-title .fil-text').html('(No Trade-in selected)');
+                $('#tradein-make').val('0');
+                $('#tradein-model').val('0');
+                $('#tradein-year').val('0');
+                $('#tradein-mileage').val('');
+                // if (tradeInDefaultTxt) {
+                //     $('#trade-in-title span').text(tradeInDefaultTxt);
+                // }
+                $('#trade-in-title').css('color', '');
+
+                //reset preferences
+                $('input[name=tranmission]').filter('[value="Any"]').attr('checked', true);
+                $('input[name=fuel]').filter('[value="Any"]').attr('checked', true);
+                $('#features .fil-text').text('(All Vehicle Types)');
+
+                // reset checkbox models
+                $('input[name=modelsCar]').removeAttr('checked');
+                $('#models .fil-text').text('(All Avalable Models)');
+                carmodels = [];
+                feature = [];
+                var params = {
+                    initPayment: initPayment,
+                    duration: duration,
+                    payPerMonth: payPerMonth,
+                    numMiles: numMiles,
+                    first_time: 1
+                };
+                handle = setTimeout(function(){
+                    loadProducts(params);
+                    //updateFeaturePanel(params);
+                }, 2000);
+                //console.log(params);
+            });
+
+            $("#accept").click(function(){
+
+               if($(this).is(':checked')){
+                    $('.inputDisabled').prop("disabled", false);
+                    $('#btn_save_tradein').removeClass('opacity30'); 
+                }else{
+                    $('.inputDisabled').prop("disabled", true); 
+                    $('#btn_save_tradein').addClass('opacity30'); 
+                }
+                 
+               
+
+            });
+
+            $(".model_box img").on("click",function(){
+                checkbox = $(this).closest('.model_box').find('.carmodelcheck');
+                checkbox.trigger("click");
+            });
+            // car model checkbox
+            $('.carmodelcheck').on("click",function(){
+                model_val = $(this).val();
+                if($(this).is(':checked')){
+                    carmodels.push(model_val);
+                }else{
+                    carmodels.splice(carmodels.indexOf(model_val),1)
+                }
+                //console.log(carmodels);
+                $('#models .fil-text').html((carmodels.sort()).join('; '));
+                loadProductsTimeout();
+            });
+
+            $('.features input').on('change', function() {
+                feature['Tranmission'] = $('input[name=tranmission]:checked', '.features').val();
+                feature['Fuel'] = $('input[name=fuel]:checked', '.features').val();
+                $('#features .fil-text').html( 'Tranmission: '+ feature['Tranmission'] + '<br> Fuel: '+ feature['Fuel']);
+                loadProductsTimeout();
+            });
+
+            // Update feature panel
+            function updateFeaturePanel(params) {
+                $.post("/car/finder/filterfeature", params, function(data) {
+                    //console.log(data);
+                });
+            }
+        });
+    });
+    function loadProductsTimeout(timeout){
+        //var totalPrice = payPerMonth * month + initPayment;
+        var params = {
+            //min_price: totalPrice,
+            initPayment: initPayment,
+            duration: duration,
+            payPerMonth: payPerMonth,
+            numMiles: numMiles,
+            name:carmodels,
+            transmission_type:[feature['Tranmission'],feature['Fuel']]
+        };
+        if(objTradeIn && tradeInOk){
+            params.tradeInValue = objTradeIn.tradein_trade_min;
+        }
+
+        if(isPayFull){
+            params.payFullAmount = payFullAmount;
+        }
+
+        if(timeout == 0){
+            params.first_time = 1;
+        }
+
+        timeout = timeout || 1000;
+
+        clearTimeout( handle );
+
+        handle = setTimeout(function(){
+            loadProducts(params);
+            //updateFeaturePanel(params);
+        }, timeout);
+    }
+
+    function loadProducts(params){
+        jQuery('#quickar-product-list-grid').html("");
+        jQuery('#spinner').show();
+
+        params.tradeInValue = jQuery('#txt-tradein-valuation').val();
+        params.amount_owing = jQuery('#amount_owing').val();
+
+        jQuery.post( "<?php echo $this->getUrl();?>car/finder/ajax", params, function( data ) {
+            jQuery('#spinner').hide();
+            jQuery( "#quickar-product-list-grid" ).html( data );
+            var wall = new Freewall("#product-items");
+
+            wall.reset({
+                selector: '.product-item',
+                animate: true,
+                cellW: 300,
+                cellH: 'auto',
+                fixSize: 0,
+                onResize: function() {
+                    wall.fitWidth();
+                },
+            });
+            wall.fitWidth();
+
+        });
+    }
+    function updatePayTitle(payPerMonth, month, initPayment){
+        var title = payPerMonth + ' per Month for <br> ' + month + ' Months with <br> $' + initPayment + ' Deposit' ;
+        jQuery('#pay-title .fil-text').html(title);
+    }
+    function showMonthPanel(){
+        jQuery('#month-panel').show();
+        jQuery('#full-panel').hide();
+        jQuery('#btn-full').removeClass('active');
+        jQuery('#btn-month').addClass('active');
+        updatePayTitle(payPerMonth, duration, initPayment);
+        payFullAmount = 10000;
+        isPayFull = false;
+    }
+    function showFullPanel(){
+        jQuery('#month-panel').hide();
+        jQuery('#full-panel').show();
+        jQuery('#btn-full').addClass('active');
+        jQuery('#btn-month').removeClass('active');
+        jQuery('#pay-title .fil-text').text('How much are you looking to spend');
+    }
+</script>
+
+<script>
+    var objTradeIn;
+    var tradeInOk = false;
+    var tradeInDefaultTxt = 'Want to swap your car for a new one?';
+
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Catalog/js/price-utils'
+        ],
+        function(
+            $,
+            modal,
+            priceUtils
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+            };
+
+            var popup = modal(options, $('#get_valuation'));
+
+            jQuery("#btn_valuation").on('click', function() {
+                var params = {
+                    make: jQuery('#tradein-make').val(),
+                    model: jQuery('#tradein-model').val(),
+                    year: jQuery('#tradein-year').val(),
+                    mileage: jQuery('#tradein-mileage').val()
+                };
+
+                jQuery.post("/car/finder/valuation", params, function(data) {
+                    objTradeIn = jQuery.parseJSON(data);
+                    console.log(objTradeIn);
+                    var description = objTradeIn.description;
+                    if (!jQuery.isEmptyObject(objTradeIn)) {
+                        jQuery('.get_valuation_content div .description').text(description.replace(/(<([^>]+)>)/ig,""));
+                        jQuery('.get_valuation_content div .price').text('$' + objTradeIn.price);
+                        jQuery('#btn-ok-tradein').attr('entity_id', objTradeIn.entity_id)
+                        jQuery('#get_valuation').modal('openModal');
+                    } else {
+                        alert('Invalid data. Please select your car again!');
+                    }
+                });
+            });
+
+            $('#btn-ok-tradein').on('click', function() {
+                var params = {
+                    product: $(this).attr('entity_id')
+                };
+
+                params.standing_finance = $('#standing-finance').val();
+
+                $.post("/car/finder/tradein", params, function(data) {
+                    var objTradeIn = $.parseJSON(data);
+
+                    // Set trade-in information
+                    if (objTradeIn.tradein_trade_min) {
+                        var priceFormat = {
+                            pattern: "$%s",
+                            precision: 2,
+                            requiredPrecision: 2,
+                            decimalSymbol: ".",
+                            groupSymbol: ",",
+                            groupLength: 3,
+                            integerRequired: 1
+                        };
+
+                        var value = priceUtils.formatPrice(objTradeIn.tradein_trade_min, priceFormat);
+                        changeTradeInTitle(objTradeIn.name, value);
+                    }
+
+                    $('#btn-no-tradein').trigger('click');
+                    tradeInOk = true;
+                    loadProductsTimeout(payPerMonth, duration, initPayment);
+                });
+            });
+
+            $(".tt_btn").hover(function () {
+                $(this).next('.tt_content').toggle();
+            });
+
+            $('#tradein-year').change(function() {
+                initCarMake($(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-make').empty().append(optionItems);
+                $('#tradein-model').val(0);
+                $('#tradein-variant').val(0);
+
+                $("#tradein-make").attr("disabled",false);
+
+            });
+
+            $('#tradein-make').change(function() {
+                initCarModel($('#tradein-year').val(),$(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-model').empty().append(optionItems);
+                $('#tradein-variant').val(0);
+
+                $("#tradein-model").attr("disabled",false);
+            });
+
+            $('#tradein-model').change(function() {
+                initCarVariant($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-variant').empty().append(optionItems);
+
+                initCarSeries($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-series').empty().append(optionItems);
+
+                initCarStyle($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-style').empty().append(optionItems);
+
+                initCarEngine($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-engine').empty().append(optionItems);
+
+                initCarSize($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-size').empty().append(optionItems);
+
+                initCarTransmission($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-transmission').empty().append(optionItems);
+
+                initCarMonth($('#tradein-year').val(),$('#tradein-make').val(), $(this).val());
+                var optionItems = '<option value="0" selected>Loading...</option>';
+                $('#tradein-month').empty().append(optionItems);
+
+                $("#tradein-variant").attr("disabled",false);
+                $("#tradein-style").attr("disabled",false);
+                $("#tradein-series").attr("disabled",false);
+                $("#tradein-engine").attr("disabled",false);
+                $("#tradein-size").attr("disabled",false);
+                $("#tradein-transmission").attr("disabled",false);
+                $("#tradein-month").attr("disabled",false);
+
+            });
+
+            $(document).ready(function() {
+                initTradein();
+                initCarYear();
+            });
+
+            // Init Car Make
+            function initCarMake(car_make_year) {
+
+                var params = {
+                    car_make_year: car_make_year
+                };
+
+                $.post('/tradein/glass/make', params, function(data) {
+                    var objCarMakes = data;
+                    var optionItems = '<option value="0" selected>Brand</option>';
+
+                    if (!$.isEmptyObject(objCarMakes)) {
+                        for (step = 0; step < objCarMakes.length; step++) {
+                            optionItems += '<option value="' + objCarMakes[step].glass_make + '">' + objCarMakes[step].glass_make + '</option>';
+                        }
+                    }
+
+                    $('#tradein-make').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Model
+            function initCarModel(car_year,car_make_id) {
+                var params = {
+                    car_make_id: car_make_id,
+                    car_year: car_year
+                };
+
+                $.post('/tradein/glass/family', params, function(data) {
+                    var objCarModels = data;
+                    var optionItems = '<option value="0" selected>Model</option>';
+
+                    if (!$.isEmptyObject(objCarModels)) {
+                        for (step = 0; step < objCarModels.length; step++) {
+                            optionItems += '<option value="' + objCarModels[step].glass_model + '">' + objCarModels[step].glass_model + '</option>';
+                        }
+                    }
+
+                    $('#tradein-model').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Variant
+            function initCarVariant(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/variant', params, function(data) {
+                    var objCarVariants = data;
+                    var optionItems = '<option value="0" selected>Variant</option>';
+
+                    if (!$.isEmptyObject(objCarVariants)) {
+                        for (step = 0; step < objCarVariants.length; step++) {
+                            optionItems += '<option value="' + objCarVariants[step].glass_variant + '">' + objCarVariants[step].glass_variant + '</option>';
+                        }
+                    }
+
+                    $('#tradein-variant').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Series
+            function initCarSeries(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/series', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Series</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_series + '">' + objCarAtt[step].glass_series + '</option>';
+                        }
+                    }
+
+                    $('#tradein-series').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Style
+            function initCarStyle(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/style', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Style</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_style + '">' + objCarAtt[step].glass_style + '</option>';
+                        }
+                    }
+
+                    $('#tradein-style').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Engine
+            function initCarEngine(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/engine', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Engine</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_engine + '">' + objCarAtt[step].glass_engine + '</option>';
+                        }
+                    }
+
+                    $('#tradein-engine').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Size
+            function initCarSize(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/size', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Size</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_size + '">' + objCarAtt[step].glass_size + '</option>';
+                        }
+                    }
+
+                    $('#tradein-size').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Transmision
+            function initCarTransmission(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/transmission', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Transmission</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_transmission + '">' + objCarAtt[step].glass_transmission + '</option>';
+                        }
+                    }
+
+                    $('#tradein-transmission').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Month
+            function initCarMonth(car_year,car_make,car_model_id) {
+                var params = {
+                    car_year: car_year,
+                    car_make: car_make,
+                    car_model_id: car_model_id
+                };
+
+                $.post('/tradein/glass/month', params, function(data) {
+                    var objCarAtt = data;
+                    var optionItems = '<option value="0" selected>Month</option>';
+
+                    if (!$.isEmptyObject(objCarAtt)) {
+                        for (step = 0; step < objCarAtt.length; step++) {
+                            optionItems += '<option value="' + objCarAtt[step].glass_mth + '">' + objCarAtt[step].glass_mth + '</option>';
+                        }
+                    }
+
+                    $('#tradein-month').empty().append(optionItems);
+                });
+            }
+
+            // Init Car Year
+            function initCarYear() {
+
+
+                $.get('/tradein/glass/index', function(data) {
+
+                    var objCarYears = data;
+                    var optionItems = '<option value="0" selected>Year</option>';
+
+                    if (!$.isEmptyObject(objCarYears)) {
+                        for (step = 0; step < objCarYears.length; step++) {
+                            optionItems += '<option value="' + objCarYears[step].glass_year + '">' + objCarYears[step].glass_year + '</option>';
+                        }
+                    }
+
+                    $('#tradein-year').empty().append(optionItems);
+                    $("#tradein-make").attr("disabled",true);
+                    $("#tradein-model").attr("disabled",true);
+                    $("#tradein-variant").attr("disabled",true);
+                    $("#tradein-series").attr("disabled",true);
+                    $("#tradein-style").attr("disabled",true);
+                    $("#tradein-engine").attr("disabled",true);
+                    $("#tradein-size").attr("disabled",true);
+                    $("#tradein-transmission").attr("disabled",true);
+                    $("#tradein-month").attr("disabled",true);
+
+
+
+                });
+            }
+
+            // Get trade in data in session
+
+            function initTradein() {
+
+                <?php
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+                $checkoutSession = $objectManager->get('\Magento\Checkout\Model\Session');
+
+                $tradeinValue = number_format($checkoutSession->getTradeinValue());
+                $tradeinVehicle = $checkoutSession->getTradeinVehicle();
+                $tradeinAmountOwing = (float)$checkoutSession->getTradeinOwing();
+
+
+
+                if ($checkoutSession->getTradeinValue() > 0) {
+                    $tradeinInformation = $tradeinVehicle."<br />$".$tradeinValue;
+                    echo "$('#edit_tradein_btn').show();";
+                }else{
+                    $tradeinInformation = "(No Trade-in selected)";
+                    echo "$('#edit_tradein_btn').hide();";
+                }
+
+                ?>
+
+
+                $('#txt-tradein-valuation').val(<?php echo $checkoutSession->getTradeinValue(); ?>);
+                $('#amount_owing').val(<?php echo $tradeinAmountOwing; ?>);
+
+                $('#trade-in-title .fil-text').html("<?php echo $tradeinInformation; ?>");
+
+            }
+
+            // Change trade-in title
+            function changeTradeInTitle(name, value) {
+                var tradeInTxt = '%name% - <strong>%value%</strong>';
+
+                // Set values
+                tradeInTxt = tradeInTxt.replace('%name%', name);
+                tradeInTxt = tradeInTxt.replace('%value%', value);
+                $('#trade-in-title .fil-text').html(tradeInTxt);
+                $('#trade-in-title').css('color', '#84BD00');
+                $('#trade-in-title').trigger('click');
+            }
+        }
+    );
+</script>
+
+<script>
+    require([
+        "jquery",
+        "bootstrapselect",
+        "owlcarousel"
+    ], function($){
+        $(document).ready(function() {
+            $('#models_slider').owlCarousel({
+                loop:false,
+                nav: true,
+                dots: false,
+                navClass: ['fa fa-chevron-left', 'fa fa-chevron-right'],
+                navText: ['', ''],
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:4
+                    },
+                    1000:{
+                        items:5
+                    }
+                }
+            });
+            $('.selectpicker').selectpicker({
+                width: 'fit'
+            });
+
+        });
+    });
+    require(
+        ['jquery'],
+        function($){
+
+            $(document).ready(function() {
+
+                //Edit trade-in in session
+
+                $('#edit_tradein_btn').click(function() {
+                    $("#show_content_ajax").hide();
+                    $("#search_by_license").hide();
+                    $("#manual_trade_in").hide();
+                    $("#get_valuation_trade_in").show();
+
+                    var ajaxurl = '<?php echo $this->getUrl("tradein/kms/index");?>';
+                    $.ajax({
+                        url:ajaxurl,
+                        type:'POST',
+                        showLoader: true,
+                        dataType:'json',
+                        data: {},
+                        success:function(response){
+                            if(response.status == "1")
+                            {
+                                $("#valuation_kms").val(response.content);
+                                $("#valuation_kms_2").val(response.content);
+                                $("#your_car_2").html(response.vehicle_information);
+                                $("#estimated_your_car_2").html(response.vehicle_information);
+
+                            }
+                        }
+                    });
+
+                });
+
+                $('#trade_in_your_old_car').click(function() {
+                    if($('select#basic').val() == "" || $('input#input_license_plate').val() == "")
+                    {
+                        if($('select#basic').val() == "")
+                        {
+                            $('#form_trade_in_your_old_car button.dropdown-toggle').addClass("required");
+                        }
+                        else
+                        {
+                            $('#form_trade_in_your_old_car button.dropdown-toggle').removeClass("required");
+                        }
+                        if($('input#input_license_plate').val() == "")
+                        {
+                            $('input#input_license_plate').addClass("required");
+                        }
+                        else
+                        {
+                            $('input#input_license_plate').removeClass("required");
+                        }
+                    }
+                    else
+                    {
+                        $('select#basic').removeClass("required");
+                        $('input#input_license_plate').removeClass("required");
+                        var current_license = $('input#input_license_plate').val();
+                        $('input#input_license_plate').val(current_license.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '').toUpperCase());
+
+                        var select_basic = $('select#basic').val();
+                        var input_license_plate = $('input#input_license_plate').val();
+
+                        var ajaxurl = '<?php echo $this->getUrl("tradein/request/index");?>';
+                        $.ajax({
+                            url:ajaxurl,
+                            type:'POST',
+                            showLoader: true,
+                            dataType:'json',
+                            data: {state:select_basic,license:input_license_plate},
+                            success:function(response){
+                                console.log(response);
+                                if(response.status == "1")
+                                {
+
+                                    $("#show_content_ajax").html("<div class='success'><div class='yourcar'>Your Car?</div><div class='car_information'> "+response.content+"<span>"+response.vehicleInformation+"</span></div><div class='buttons'><input name='trade_in_your_old_car_yes' id='trade_in_your_old_car_yes' type='button'  value='Yes'/><input name='trade_in_your_old_car_no' id='trade_in_your_old_car_no' type='button' value='No'/></div>");
+
+                                    $("#txt-vehicle-year").val(response.tradein_year);
+                                    $("#your_car").html(response.content);
+
+                                    $("#estimated_your_car").html(response.content);
+                                    $("#txt-tradein-product").val(response.content);
+
+                                    // No, search by manual
+                                    $('#trade_in_your_old_car_no, #searchbyvehicle').click(function() {
+                                        $("#show_content_ajax").hide();
+                                        $("#search_by_license").hide();
+                                        $("#manual_trade_in").show();
+                                        $("#valuation_kms").val(0);
+                                        $("#valuation_kms_2").val(0);
+                                    });
+
+                                    // Yes, confirm again
+                                    $('#trade_in_your_old_car_yes').click(function() {
+                                        $("#trade_in_your_old_car_yes").remove();
+                                        $("#trade_in_your_old_car_no").remove();
+                                        $("#show_content_ajax").append("<div class='buttons'><input name='trade_in_your_old_car_value' id='trade_in_your_old_car_value' type='button' value='Value My Car'/></div>");
+
+
+                                        // OK, let's start to trade, get Kms first if there is in DB
+
+                                        $('#trade_in_your_old_car_value').click(function() {
+                                            $("#show_content_ajax").hide();
+                                            $("#search_by_license").hide();
+                                            $("#manual_trade_in").hide();
+                                            $("#get_valuation_trade_in").show();
+
+                                            var ajaxurl = '<?php echo $this->getUrl("tradein/kms/index");?>';
+                                            $.ajax({
+                                                url:ajaxurl,
+                                                type:'POST',
+                                                showLoader: true,
+                                                dataType:'json',
+                                                data: {state:select_basic,license:input_license_plate},
+                                                success:function(response){
+                                                    if(response.status == "1")
+                                                    {
+                                                        $("#valuation_kms").val(response.content);
+                                                        $("#valuation_kms_2").val(response.content);
+                                                        $("#your_car_2").html(response.vehicle_information);
+                                                        $("#estimated_your_car_2").html(response.vehicle_information);
+
+                                                    }
+                                                }
+                                            });
+                                        });
+
+                                    });
+
+
+
+
+                                }
+                                else
+                                {
+                                    //$("#show_content_ajax").html("<span class='error'>Sorry we couldn’t find your license plate. Please retry or search by vehicle type.</span>")
+
+                                    $("#show_content_ajax").html("<div class='success'><div class='car_information'>Sorry we couldn’t find your license plate. Please retry or search by vehicle type.</div><div class='buttons'><input name='' id='searchbyvehicle' type='button' value='Search by Vehicle Type'/></div>");
+
+                                    $('#searchbyvehicle').click(function() {
+                                        $("#show_content_ajax").hide();
+                                        $("#search_by_license").hide();
+                                        $("#manual_trade_in").show();
+                                        $("#valuation_kms").val(0);
+                                        $("#valuation_kms_2").val(0);
+                                    });
+
+                                }
+                            }
+                        });
+
+                        // Other functions
+
+
+
+
+
+                        $('#btn_back_manual').click(function() {
+
+                            $("#get_valuation_trade_in").hide();
+                            $("#manual_trade_in").show();
+
+                        });
+
+                        $('#valuemycar_cancel').click(function() {
+
+
+                            $("#show_content_ajax").html('');
+                            $("#search_by_license").show();
+                            $("#show_content_ajax").show();
+                            $("#manual_trade_in").hide();
+
+                            $('#input_license_plate').val('');
+                            $('#tradein-variant').val(0);
+                            $('#tradein-model').val(0);
+                            $('#tradein-make').val(0);
+                            $('#tradein-year').val(0);
+
+                            $('#tradein-series').val(0);
+                            $('#tradein-style').val(0);
+                            $('#tradein-size').val(0);
+                            $('#tradein-engine').val(0);
+                            $('#tradein-transmission').val(0);
+                            $('#tradein-month').val(0);
+
+
+                            $("#your_car").empty();
+                            $("#your_car_2").empty();
+                            $("#estimated_your_car").empty();
+                            $("#estimated_your_car_2").empty();
+
+                            $("#estimated_valuation").empty();
+                            $("#txt-tradein-valuation").val(0);
+                            $("#valuation_message").empty();
+
+
+                            $("#tradein-make").attr("disabled",true);
+                            $("#tradein-model").attr("disabled",true);
+                            $("#tradein-variant").attr("disabled",true);
+                            $("#tradein-series").attr("disabled",true);
+                            $("#tradein-style").attr("disabled",true);
+                            $("#tradein-size").attr("disabled",true);
+                            $("#tradein-engine").attr("disabled",true);
+                            $("#tradein-month").attr("disabled",true);
+                            $("#tradein-transmission").attr("disabled",true);
+
+
+
+                        });
+
+
+                        // get Valuation from Manual form
+                        $('#btn_valuemycar').click(function() {
+
+                            $("#show_content_ajax").hide();
+                            $("#search_by_license").hide();
+                            $("#manual_trade_in").hide();
+                            $("#btn_back_manual").hide();
+                            $("#get_valuation_trade_in").show();
+
+                            var car_year = $('#tradein-year').val();
+                            var car_make = $('#tradein-make').val();
+                            var car_model = $('#tradein-model').val();
+                            var car_variant = $('#tradein-variant').val();
+                            var car_series = $('#tradein-series').val();
+                            var car_style = $('#tradein-style').val();
+                            var car_engine = $('#tradein-engine').val();
+                            var car_size = $('#tradein-size').val();
+                            var car_transmission = $('#tradein-transmission').val();
+                            var car_month = $('#tradein-month').val();
+
+                            var ajaxurl = '<?php echo $this->getUrl("tradein/glass/vehicle");?>';
+                            $.ajax({
+                                url:ajaxurl,
+                                type:'POST',
+                                showLoader: true,
+                                dataType:'json',
+                                data: {car_year:car_year,car_make:car_make,car_model:car_model,car_variant:car_variant,car_style:car_style,car_series:car_series,car_engine:car_engine,car_size:car_size,car_transmission:car_transmission,car_month:car_month},
+                                success:function(response){
+                                    if(response.status == "1")
+                                    {
+                                        console.log(response);
+
+                                        $("#txt-vehicle-year").val(response.tradein_year);
+                                        $("#txt-glass-code").val(response.glass_code);
+                                        $("#your_car").html(response.vechicle);
+                                        $("#your_car_2").html(response.vehicleInformation);
+                                        $("#estimated_your_car").html(response.vechicle);
+                                        $("#estimated_your_car_2").html(response.vehicleInformation);
+                                        $("#txt-tradein-product").val(response.vechicle);
+
+                                        if (response.tradein_year == 0) {
+                                            $("#btn_back_manual").show();
+
+                                        }
+
+
+                                    }
+                                }
+                            });
+
+                        });
+
+                        // Update price by check the options
+
+                        $('#condition-good2, #condition-fair2, #condition-poor2, #two_key_2, #private_import_2, #personalised_plates_2, #one_owner_2, #registered_2, #written_off_2, #service_history_2, #service_history_2, #commerially_2, #transmission_2, #engine_2').click(function() {
+                            reloadValuation();
+                        });
+
+
+
+                        function reloadValuation () {
+
+                            if($('#exellent_condition_2').attr('checked')) {
+                                $('#exellent_condition_2').val(1);
+                            } else {
+                                $('#exellent_condition_2').val(0);
+                            }
+
+                            if($('#two_key_2').attr('checked')) {
+                                $('#two_key_2').val(1);
+                            } else {
+                                $('#two_key_2').val(0);
+                            }
+
+                            if($('#private_import_2').attr('checked')) {
+                                $('#private_import_2').val(1);
+                            } else {
+                                $('#private_import_2').val(0);
+                            }
+
+                            if($('#personalised_plates_2').attr('checked')) {
+                                $('#personalised_plates_2').val(1);
+                            } else {
+                                $('#personalised_plates_2').val(0);
+                            }
+
+                            if($('#one_owner_2').attr('checked')) {
+                                $('#one_owner_2').val(1);
+                            } else {
+                                $('#one_owner_2').val(0);
+                            }
+
+                            if($('#registered_2').attr('checked')) {
+                                $('#registered_2').val(1);
+                            } else {
+                                $('#registered_2').val(0);
+                            }
+
+                            if($('#written_off_2').attr('checked')) {
+                                $('#written_off_2').val(1);
+                            } else {
+                                $('#written_off_2').val(0);
+                            }
+
+                            if($('#service_history_2').attr('checked')) {
+                                $('#service_history_2').val(1);
+                            } else {
+                                $('#service_history_2').val(0);
+                            }
+
+                            if($('#commerially_2').attr('checked')) {
+                                $('#commerially_2').val(1);
+                            } else {
+                                $('#commerially_2').val(0);
+                            }
+
+                            if($('#transmission_2').attr('checked')) {
+                                $('#transmission_2').val(1);
+                            } else {
+                                $('#transmission_2').val(0);
+                            }
+
+                            if($('#engine_2').attr('checked')) {
+                                $('#engine_2').val(1);
+                            } else {
+                                $('#engine_2').val(0);
+                            }
+
+                            var car_year = $('#txt-vehicle-year').val();
+                            var valuation_kms = $('#valuation_kms').val();
+
+                            var exellent_condition = $("input[name='condition2']:checked").val();
+
+                            var two_key = $('#two_key_2').val();
+                            var private_import = $('#private_import_2').val();
+                            var personalised_plates = $('#personalised_plates_2').val();
+                            var one_owner = $('#one_owner_2').val();
+                            var registered = $('#registered_2').val();
+                            var service_history = $('#service_history_2').val();
+                            var written_off = $('#written_off_2').val();
+                            var commerially = $('#commerially_2').val();
+                            var transmission = $('#transmission_2').val();
+                            var engine = $('#engine_2').val();
+
+                            var ajaxurl = '<?php echo $this->getUrl("tradein/valuation/index");?>';
+                            $.ajax({
+                                url:ajaxurl,
+                                type:'POST',
+                                showLoader: true,
+                                dataType:'json',
+                                data: {state:select_basic,license:input_license_plate,car_year:car_year,valuation_kms:valuation_kms,exellent_condition:exellent_condition,two_key:two_key,private_import:private_import,personalised_plates:personalised_plates,one_owner:one_owner,registered:registered,service_history:service_history,written_off:written_off,commerially:commerially,transmission:transmission,engine:engine},
+                                success:function(response){
+                                    if(response.status == "1")
+                                    {
+                                        console.log(response);
+
+                                        $("#estimated_valuation").html(response.content);
+                                        $("#txt-tradein-valuation").val(response.valuation);
+                                        $("#valuation_message").html(response.message);
+
+                                    }
+                                }
+                            });
+                        }
+                        // end other functions
+
+                    }
+                });
+
+
+                if(!isFresh){
+                    if(isPayFull) {
+                        jQuery('#radio2').click();
+                    }
+                    updatePayTitle(payPerMonth, duration, initPayment);
+
+                    jQuery('input:radio[name="tranmission"]').filter('[value="'+feature['Tranmission']+'"]').attr('checked', true);
+                    jQuery('input:radio[name="fuel"]').filter('[value="'+feature['Fuel']+'"]').attr('checked', true);
+                    $('#features .fil-text').html( 'Tranmission: '+ feature['Tranmission'] + '<br> Fuel: '+ feature['Fuel']);
+
+                    carmodels.forEach(function(item){
+                        $('input[name=modelsCar]').filter('[value="'+item+'"]').attr('checked', true);
+                    })
+                    if( carmodels.length > 0 ){
+                        $('#models .fil-text').html((carmodels.sort()).join('; '));
+                    }else{
+                        $('#models .fil-text').text('(All Avalable Models)');
+                    }
+
+
+
+                }
+
+            });
+
+
+            // Cancel Trade in - Pre valuation
+            /*
+             $('#btn_cancel_tradein').click(function() {
+
+             $("#show_content_ajax").show();
+             $("#show_content_ajax").html("");
+             $("#search_by_license").show();
+             $("#manual_trade_in").hide();
+             $("#get_valuation_trade_in").hide();
+             $("#estimated_value").hide();
+             $("#trade-in-title").click();
+             });
+             */
+
+            // Save the trade value
+            $('#btn_save_tradein').click(function() {
+
+                $('#trade-in-title .fil-text').html($('#txt-tradein-product').val() + '<br />' + $('#estimated_valuation').html());
+
+                var amount_owing = $('#amount_owing').val();
+                var tradein_value = $('#txt-tradein-valuation').val();
+                var tradein_vehicle = $('#txt-tradein-product').val();
+
+                var license_plate = $('#input_license_plate').val();
+                var tradein_state = $('#basic').val();
+                var car_year = $('#txt-vehicle-year').val();
+
+                var ajaxurl = '<?php echo $this->getUrl("tradein/valuation/save");?>';
+                $.ajax({
+                    url:ajaxurl,
+                    type:'POST',
+                    showLoader: true,
+                    dataType:'json',
+                    data: {car_year:car_year,license_plate:license_plate,tradein_state:tradein_state,amount_owing:amount_owing,tradein_value:tradein_value,tradein_vehicle:tradein_vehicle},
+                    success:function(response){
+                        if(response.status == "1")
+                        {
+                            var params = {
+                                initPayment: initPayment,
+                                duration: duration,
+                                payPerMonth: payPerMonth,
+                                numMiles: numMiles,
+                                tradeInValue: $('#txt-tradein-valuation').val(),
+                            };
+
+                            $("#edit_tradein_btn").show();
+                            $("#show_content_ajax").show();
+                            $("#show_content_ajax").html("");
+                            $("#search_by_license").show();
+                            $("#manual_trade_in").hide();
+                            $("#get_valuation_trade_in").hide();
+                            $("#estimated_value").hide();
+                            $("#trade-in-title").click();
+
+                            loadProducts(params);
+
+                        }
+                    }
+                });
+            });
+
+            //Cancel all trade
+
+            $('#btn_estimated_cancel, #btn_cancel_tradein').click(function() {
+                $('#input_license_plate').val('');
+                $('#txt-glass-code').val('');
+                $('#tradein-variant').val(0);
+                $('#tradein-model').val(0);
+                $('#tradein-make').val(0);
+                $('#tradein-year').val(0);
+                $('#tradein-series').val(0);
+                $('#tradein-style').val(0);
+                $('#tradein-size').val(0);
+                $('#tradein-engine').val(0);
+                $('#tradein-transmission').val(0);
+                $('#tradein-month').val(0);
+
+                $("#your_car").empty();
+                $("#your_car_2").empty();
+                $("#estimated_your_car").empty();
+                $("#estimated_your_car_2").empty();
+
+                $("#estimated_valuation").empty();
+                $("#txt-tradein-valuation").val(0);
+                $("#valuation_message").empty();
+
+
+                $("#tradein-make").attr("disabled",true);
+                $("#tradein-model").attr("disabled",true);
+                $("#tradein-variant").attr("disabled",true);
+                $("#tradein-series").attr("disabled",true);
+                $("#tradein-style").attr("disabled",true);
+                $("#tradein-size").attr("disabled",true);
+                $("#tradein-engine").attr("disabled",true);
+                $("#tradein-month").attr("disabled",true);
+                $("#tradein-transmission").attr("disabled",true);
+
+                $("#show_content_ajax").show();
+                $("#show_content_ajax").html("");
+                $("#search_by_license").show();
+                $("#manual_trade_in").hide();
+                $("#get_valuation_trade_in").hide();
+                $("#estimated_value").hide();
+                $("#trade-in-title").click();
+
+                $('.modal-header .action-close').trigger('click');
+            });
+
+
+            $('#close-all-btn').click(function() {
+                jQuery('.panel.showed').removeClass('showed').slideUp();
+                jQuery('button.accordion.active').removeClass('active');
+                $(document).scrollTop( $("#trade-in-title").offset().top -10);
+
+                $(this).hide();
+                $('.reset-all-filters').css( "max-width", "150px" );
+            });
+
+            $('#condition-fair').click(function() {
+                $('#condition-fair2').prop('checked', true);
+            });
+
+            $('#condition-poor').click(function() {
+                $('#condition-poor2').prop('checked', true);
+            });
+
+            $('#btn_get_valuation').click(function() {
+
+                $("#get_valuation_trade_in").hide();
+                $("#estimated_value").show();
+                $("#valuation_kms_2").val($("#valuation_kms").val());
+
+
+                $("#valuation_kms_2").attr("disabled", "disabled");
+
+                if($('#exellent_condition').attr('checked')) {
+                    $('#exellent_condition').val(1);
+                    $('#exellent_condition_2').prop('checked', true);
+                } else {
+                    $('#exellent_condition').val(0);
+                }
+
+                if($('#two_key').attr('checked')) {
+                    $('#two_key').val(1);
+                    $('#two_key_2').prop('checked', true);
+                } else {
+                    $('#two_key').val(0);
+                }
+
+                if($('#private_import').attr('checked')) {
+                    $('#private_import').val(1);
+                    $('#private_import_2').prop('checked', true);
+                } else {
+                    $('#private_import').val(0);
+                }
+
+                if($('#personalised_plates').attr('checked')) {
+                    $('#personalised_plates').val(1);
+                    $('#personalised_plates_2').prop('checked', true);
+                } else {
+                    $('#personalised_plates').val(0);
+                }
+
+                if($('#one_owner').attr('checked')) {
+                    $('#one_owner').val(1);
+                    $('#one_owner_2').prop('checked', true);
+                } else {
+                    $('#one_owner').val(0);
+                }
+
+                if($('#registered').attr('checked')) {
+                    $('#registered').val(1);
+                    $('#registered_2').prop('checked', true);
+                } else {
+                    $('#registered').val(0);
+                }
+
+                if($('#written_off').attr('checked')) {
+                    $('#written_off').val(1);
+                    $('#written_off_2').prop('checked', true);
+                } else {
+                    $('#written_off').val(0);
+                }
+
+                if($('#service_history').attr('checked')) {
+                    $('#service_history').val(1);
+                    $('#service_history_2').prop('checked', true);
+                } else {
+                    $('#service_history').val(0);
+                }
+
+                if($('#commerially').attr('checked')) {
+                    $('#commerially').val(1);
+                    $('#commerially_2').prop('checked', true);
+                } else {
+                    $('#commerially').val(0);
+                }
+
+                if($('#transmission').attr('checked')) {
+                    $('#transmission').val(1);
+                    $('#transmission_2').prop('checked', true);
+                } else {
+                    $('#transmission').val(0);
+                }
+
+                if($('#engine').attr('checked')) {
+                    $('#engine').val(1);
+                    $('#engine_2').prop('checked', true);
+                } else {
+                    $('#engine').val(0);
+                }
+
+                var select_basic = $('select#basic').val();
+                var input_license_plate = $('input#input_license_plate').val();
+
+                var car_year = $('#txt-vehicle-year').val();
+                var glass_code = $('#txt-glass-code').val();
+
+
+                var valuation_kms = $('#valuation_kms').val();
+
+                var exellent_condition = $("input[name='condition']:checked").val();
+                var two_key = $('#two_key').val();
+                var private_import = $('#private_import').val();
+                var personalised_plates = $('#personalised_plates').val();
+                var one_owner = $('#one_owner').val();
+                var registered = $('#registered').val();
+                var service_history = $('#service_history').val();
+                var written_off = $('#written_off').val();
+                var commerially = $('#commerially').val();
+                var transmission = $('#transmission').val();
+                var engine = $('#engine').val();
+
+
+                var ajaxurl = '<?php echo $this->getUrl("tradein/valuation/index");?>';
+                $.ajax({
+                    url:ajaxurl,
+                    type:'POST',
+                    showLoader: true,
+                    dataType:'json',
+                    data: {state:select_basic,license:input_license_plate,glass_code:glass_code,car_year:car_year,valuation_kms:valuation_kms,exellent_condition:exellent_condition,two_key:two_key,private_import:private_import,personalised_plates:personalised_plates,one_owner:one_owner,registered:registered,service_history:service_history,written_off:written_off,commerially:commerially,transmission:transmission,engine:engine},
+                    success:function(response){
+                        if(response.status == "1")
+                        {
+                            console.log(response);
+
+                            $("#estimated_valuation").html(response.content);
+                            $("#txt-tradein-valuation").val(response.valuation);
+                            $("#amount_owing").val('');
+                            $("#valuation_message").html(response.message);
+
+                        }
+                    },
+                    statusCode: {
+                        500: function() {
+                            $("#estimated_valuation").html('$0.00');
+                            $("#txt-tradein-valuation").val(0);
+                            $("#valuation_message").html('Sorry we cannot complete your trade in from our website. There is no information for your vehicle, please contact us for more details.');
+                        }
+                    }
+                });
+
+            });
+
+        });
+
+    function jump(h){
+
+        var url = location.href;
+        location.href = '#'+h;
+        history.replaceState(null,null,url);
+    }
+
+
+
+</script>
+<div id="popup-modal-condition" style="display:none">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('no-major-info')->toHtml();?>
+</div>
+<div id="good-modal-condition" style="display:none">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('good-modal-condition')->toHtml();?>
+</div>
+<div id="fair-modal-condition" style="display:none">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('fair-modal-condition')->toHtml();?>
+</div>
+<div id="poor-modal-condition" style="display:none">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('poor-modal-condition')->toHtml();?>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal-condition'));
+            var popup = modal(options, $('#good-modal-condition'));
+            var popup = modal(options, $('#fair-modal-condition'));
+            var popup = modal(options, $('#poor-modal-condition'));
+
+            $('#no-major-info, #3-major-info, #fair-major-info').on('click',function () {
+
+                $('#popup-modal-condition').modal('openModal');
+
+            });
+
+            $('#good-condition-info, #good-condition-info2').on('click',function () {
+
+                $('#good-modal-condition').modal('openModal');
+
+            });
+
+            $('#fair-condition-info, #fair-condition-info2').on('click',function () {
+
+                $('#fair-modal-condition').modal('openModal');
+
+            });
+
+            $('#poor-condition-info, #poor-condition-info2').on('click',function () {
+
+                $('#poor-modal-condition').modal('openModal');
+
+            });
+
+
+        }
+    );
+</script>
+
+<style>
+    #search_by_license, #show_content_ajax, .yourcar {
+        display: block;
+        float: left;
+    }
+
+    .car_information {
+        padding-left: 5px;
+        color: #df5c53!important;
+    }
+
+    .car_information span {
+        color: #333333;
+        display: block;
+    }
+
+    .yourcar {
+        width: 105px;
+        color: #333333;
+
+    }
+    #show_content_ajax {
+        min-width: 70%;
+    }
+
+
+
+    @media only screen and (max-width: 768px) {
+        .get_valuation_ul_right li {
+            padding: 0px;
+            margin: 0px;
+        }
+    }
+
+    @media only screen and (max-width: 376px) {
+        .car_information {
+            clear: both;
+        }
+        .edit_btn {
+            float: right!important;
+            margin-top: 5px!important;
+            width: 150px!important;
+            margin-right: 48px!important;
+        }
+
+
+    }
+
+</style>

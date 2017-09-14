@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Gos_Tradein extension
+ *                     NOTICE OF LICENSE
+ * 
+ *                     This source file is subject to the MIT License
+ *                     that is bundled with this package in the file LICENSE.txt.
+ *                     It is also available through the world-wide-web at this URL:
+ *                     http://opensource.org/licenses/mit-license.php
+ * 
+ *                     @category  Gos
+ *                     @package   Gos_Tradein
+ *                     @copyright Copyright (c) 2017
+ *                     @license   http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/App/etc/routes.xsd">
+    <router id="admin">
+        <route id="gos_tradein" frontName="gos_tradein">
+            <module name="Gos_Tradein" before="Magento_Backend"/>
+        </route>
+    </router>
+</config>
